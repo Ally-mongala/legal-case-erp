@@ -5,7 +5,7 @@ ISJ107V Integrated Software Project (S2 2026).
 
 | | |
 |---|---|
-| **Student** | Ally Mongala · 219361629 |
+| **Student** | Ally Mongala ·
 | **Module** | ISJ107V Integrated Software Project |
 | **Emerging technology** | Artificial intelligence / NLP — document extraction, validation and summarisation |
 | **Stack** | Java 21 · Javalin 6 · Jetty 11 · H2 / PostgreSQL 16 · PDFBox · Apache POI · JUnit 5 |
