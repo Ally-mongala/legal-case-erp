@@ -1,0 +1,88 @@
+@startuml
+' ISJ107V Assignment 3 - Q3.6 Deployment diagram
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 11
+skinparam node {
+  BorderColor #1F3864
+  BackgroundColor #F4F7FB
+}
+skinparam artifact {
+  BorderColor #365F91
+  BackgroundColor #FFFFFF
+}
+skinparam database {
+  BorderColor #1F3864
+  BackgroundColor #EAF1FA
+}
+skinparam cloud {
+  BorderColor #8A6D3B
+  BackgroundColor #FFF9EC
+}
+skinparam ArrowColor #1F3864
+
+title Figure 6: Deployment Diagram - LegalCase ERP Container Topology
+
+node "<<device>>\nPractitioner Workstation" as WS {
+  node "<<executionEnvironment>>\nWeb Browser\n(Chrome / Edge / Firefox)" as BROWSER {
+    artifact "index.html" as A1
+    artifact "app.js" as A2
+    artifact "app.css" as A3
+  }
+  node "<<executionEnvironment>>\nJVM 21 + JavaFX" as JVMFX {
+    artifact "legal-case-erp-frontend-1.0.0.jar" as A4
+  }
+}
+
+node "<<device>>\nClient Mobile Device" as MOB {
+  node "<<executionEnvironment>>\nMobile Browser" as MBROWSER {
+    artifact "Responsive client portal" as A5
+  }
+}
+
+node "<<device>>  Host 1 — Reverse Proxy\nLinux x86-64, 2 vCPU, 4 GB RAM" as H1 {
+  node "<<container>>\nnginx:1.27-alpine" as NGINX {
+    artifact "nginx.conf\n(TLS termination,\nSSE buffering disabled)" as A6
+  }
+}
+
+node "<<device>>  Host 2 — Application Server\nLinux x86-64, 4 vCPU, 8 GB RAM" as H2 {
+  node "<<container>>\nEclipse Temurin 21 JRE" as JRE {
+    artifact "legal-backend.jar\n----\nJavalin 6.3 + embedded Jetty\nREST API · AI pipeline · EventBus" as A7
+    artifact "ExtractionEngine\n<<emerging technology>>" as A8
+  }
+  node "<<volume>>\nEncrypted document store" as VOL {
+    artifact "AES-256-GCM ciphertext" as A9
+  }
+}
+
+node "<<device>>  Host 3 — Database Server\nLinux x86-64, 4 vCPU, 8 GB RAM" as H3 {
+  node "<<container>>\npostgres:16-alpine" as PG {
+    database "legalcase\n----\n11 tables\nindexed on FK columns" as DB
+  }
+  node "<<volume>>\npgdata (persistent)" as PGVOL
+}
+
+cloud "Google Calendar API v3\n(external, OAuth2)" as GCAL
+
+WS    --> NGINX : HTTPS / TLS 1.2+\n(port 443)
+MOB   --> NGINX : HTTPS / TLS 1.2+
+JVMFX --> NGINX : HTTPS REST + JWT
+
+NGINX --> JRE : HTTP reverse proxy\n(port 8080, upstream)
+NGINX ..> JRE : text/event-stream\n(proxy_buffering off)
+
+JRE   --> PG  : JDBC / TCP 5432\n(HikariCP pool)
+JRE   --> VOL : file I/O (encrypted)
+PG    --> PGVOL : persistent volume
+JRE   --> GCAL : HTTPS OAuth2
+
+note bottom of H1
+  Orchestrated with Docker Compose. Each container may be
+  placed on a separate physical or cloud host; the compose
+  file parameterises host addresses via environment
+  variables (LCE_DB_URL, LCE_DB_USER, LCE_DB_PASSWORD).
+end note
+
+@enduml

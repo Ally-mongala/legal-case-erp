@@ -1,0 +1,46 @@
+@startuml
+skinparam dpi 300
+' ISJ107V Assignment 4 - Question 3.2 (single-line labels for a wider, shorter flow)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 13
+skinparam ActivityBackgroundColor #F4F7FB
+skinparam ActivityBorderColor #1F3864
+skinparam ActivityFontColor #17233D
+skinparam ActivityDiamondBackgroundColor #FFF9E3
+skinparam ActivityDiamondBorderColor #C9A227
+skinparam ArrowColor #1F3864
+skinparam padding 1
+title Figure A4-2: Activity Diagram - Demonstrated End-to-End Workflow
+
+start
+:Sign in, open a case, choose a file, tick consent;
+if (Token, scope, file type, size\nand consent all valid?) then (no)
+  :Show the specific error (401 / 403 / 400);
+  stop
+else (yes)
+endif
+:Encrypt with AES-256-GCM, store, set status = PROCESSING, queue the job, return HTTP 202;
+if (Text extractable?) then (no)
+  :status = FAILED, Retry offered (FR-12);
+  stop
+else (yes)
+endif
+:**EMERGING TECHNOLOGY**  Extract parties, dates, case number, court and amount, each with confidence, source span and page;
+:Compare the extracted parties and matter with the case record;
+if (Document matches the case?) then (no)
+  :status = REJECTED with a stated reason; conflicting fields highlighted; entry in the administrator rejection report;
+  stop
+else (yes)
+endif
+:status = PROCESSED; three-paragraph summary drafted; deadlines created; audit entry written;
+:Attorney reviews, corrects if needed, and approves the summary;
+fork
+  :Deadlines synchronised, or exported as an .ics file;
+fork again
+  :Client reads the approved summary in the portal;
+end fork
+:Client messages the attorney and rates the service;
+stop
+@enduml

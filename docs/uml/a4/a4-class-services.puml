@@ -1,0 +1,87 @@
+@startuml
+skinparam dpi 300
+' ISJ107V Assignment 4 - Question 3.3 (part 2 of 2), compact layout
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam nodesep 16
+skinparam ranksep 22
+skinparam class {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  FontColor #17233D
+  ArrowColor #1F3864
+  HeaderBackgroundColor #1F3864
+  HeaderFontColor #FFFFFF
+}
+skinparam package {
+  BackgroundColor #FAFBFD
+  BorderColor #1F3864
+  FontColor #17233D
+}
+skinparam note {
+  BackgroundColor #FFF9E3
+  BorderColor #C9A227
+  FontColor #17233D
+}
+hide empty members
+top to bottom direction
+
+title Figure A4-3b: Class Diagram (2 of 2) - Service, Security and AI Component Classes
+
+class DocumentService {
+  + upload(caseId, file, consent)
+  + retry(docId) : void
+}
+class SummaryService {
+  + approve(id, user) : Summary
+}
+class AuditService {
+  + record(user, action, details)
+  + verifyChain() : boolean
+}
+class EncryptionUtil {
+  + encrypt(bytes) : byte[]
+  + decrypt(bytes) : byte[]
+}
+class AiPipeline {
+  - workerPool : ExecutorService
+  + enqueue(docId) : void
+  + process(docId) : void
+}
+class DocumentTextExtractor {
+  + text(stream, type) : Text
+}
+class ExtractionEngine {
+  + extract(text, pages) : List<Extraction>
+  + validateAgainstCase(ext, case) : Result
+}
+class Summarizer {
+  + summarise(ext, case) : Summary
+}
+class ValidationResult {
+  + accepted : boolean
+  + reason : String
+}
+class JwtUtil {
+  + issue(user) : String
+  + verify(token) : Claims
+}
+
+DocumentService --> EncryptionUtil
+DocumentService --> AuditService
+DocumentService --> AiPipeline
+AiPipeline --> DocumentTextExtractor
+AiPipeline --> ExtractionEngine
+AiPipeline --> Summarizer
+ExtractionEngine --> ValidationResult
+SummaryService --> AuditService
+JwtUtil ..> DocumentService : scopes the request
+
+note bottom of ExtractionEngine
+  FR-02 / ETR-03: every field carries a confidence in [0,1],
+  a non-empty span and a page >= 1 - the attributes the UI uses
+  to highlight a rejected document.
+end note
+@enduml

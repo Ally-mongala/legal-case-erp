@@ -1,0 +1,71 @@
+# ============================================================================
+# ONE VM (Oracle Always Free) - everything on one machine, in three containers:
+#   caddy   : public HTTP(S) front door (ports 80/443)
+#   backend : LegalCase ERP (Java)  - NOT published to the internet
+#   db      : PostgreSQL 16         - NOT published to the internet
+# Start with:  bash setup-single-vm.sh
+# ============================================================================
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: legalcase-db
+    restart: unless-stopped
+    env_file: .db.env
+    volumes:
+      - legalcase-pgdata:/var/lib/postgresql/data
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legalcase -d legalcase"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: backend/Dockerfile
+    image: legalcase-erp-backend:latest
+    container_name: legalcase-backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      LCE_PORT: "8080"
+      LCE_DATA_DIR: /app/data
+      LCE_DEMO_AUTH: "false"
+      LCE_DATA_RESIDENCY: ZA
+      LCE_DB_URL: jdbc:postgresql://db:5432/legalcase
+      LCE_DB_USER: legalcase
+      LCE_DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - legalcase-data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [internal]
+    expose: ["8080"]
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: legalcase-web
+    restart: unless-stopped
+    depends_on: [backend]
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks: [internal]
+
+networks:
+  internal:
+
+volumes:
+  legalcase-pgdata:
+  legalcase-data:
+  caddy-data:
+  caddy-config:

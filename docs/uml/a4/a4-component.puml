@@ -1,0 +1,81 @@
+@startuml
+skinparam dpi 300
+' ISJ107V Assignment 4 - Question 3.5 (compact layout)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam nodesep 12
+skinparam ranksep 26
+skinparam component {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  FontColor #17233D
+  ArrowColor #1F3864
+}
+skinparam package {
+  BackgroundColor #FAFBFD
+  BorderColor #1F3864
+  FontColor #17233D
+}
+skinparam note {
+  BackgroundColor #FFF9E3
+  BorderColor #C9A227
+  FontColor #17233D
+}
+top to bottom direction
+
+title Figure A4-5: Component Diagram - Prototype Modules
+
+package "Client tier" {
+  [Browser client\nindex.html / app.js] as WEB
+  [JavaFX client\n(optional)] as FX
+}
+
+package "Application - one JVM (legal-backend.jar)" {
+  [REST API\nJavalin] as API
+  package "Services" {
+    [Document] as DSC
+    [Summary] as SS
+    [Deadline] as DLS
+    [Audit] as AS
+  }
+  package "AI component" {
+    [AI pipeline] as PIPE
+    [Text extractor] as TXT
+    [Extraction engine] as ENG
+    [Summariser] as SUM
+  }
+  [Security\nJWT] as SEC
+  [Encryption\nAES-256-GCM] as ENC
+  [Event bus\n(SSE)] as BUS
+  [Calendar gateway] as CAL
+}
+
+package "Data tier" {
+  database "Database\nH2 or PostgreSQL" as DB
+  folder "Encrypted store" as STORE
+}
+cloud "Google Calendar API" as GCAL
+
+WEB --> API
+FX --> API
+API --> SEC
+API --> DSC
+API --> SS
+API --> DLS
+API --> AS
+API --> BUS
+DSC --> ENC
+ENC --> STORE
+DSC --> PIPE
+PIPE --> TXT
+PIPE --> ENG
+PIPE --> SUM
+DLS --> CAL
+CAL --> GCAL
+API --> DB
+BUS ..> WEB
+
+
+@enduml

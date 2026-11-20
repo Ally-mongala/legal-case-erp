@@ -1,0 +1,36 @@
+@startuml
+!include a5-style.iuml
+left to right direction
+title Figure A5-1 (overview): actors and use-case groups
+
+actor "Lawyer" as Lawyer
+actor "Client" as Client
+actor "Administrator" as Admin
+actor "AI extraction\n(secondary)" as AI
+actor "Google Calendar\n(secondary)" as Cal
+actor "Email (SMTP)\n(optional)" as Mail
+actor "Local AI (Ollama)\n(optional)" as LocalAI
+actor "Web search\n(optional)" as Web
+
+rectangle "LegalCase ERP" {
+  usecase "Case work\nUC01-UC10, UC18\nupload, extract, validate,\nsummarise, approve, deadlines" as CaseWork
+  usecase "Billing and trust\nUC19-UC22\nbilling review, settle from trust,\ninvoice PDF" as Billing
+  usecase "Client portal\nUC11-UC13\nmessages, summary, rating" as Portal
+  usecase "Admin\nUC14-UC17, UC21\naudit, users, reports, metrics" as AdminUC
+  usecase "Help and tools\nUC23-UC26\nhelp chat, case file PDF,\nreminders, drag-and-drop" as Tools
+}
+
+Lawyer --> CaseWork
+Lawyer --> Billing
+Lawyer --> Tools
+Client --> Portal
+Client --> Tools
+Admin --> AdminUC
+Admin --> Tools
+CaseWork --> AI
+Billing --> AI
+Tools --> Cal
+Tools --> Mail
+Tools --> LocalAI : general questions
+Tools --> Web : general questions
+@enduml

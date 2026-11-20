@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>za.co.mongala.legal</groupId>
+        <artifactId>legal-case-erp</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>legal-case-erp-shared</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Shared domain model</name>
+    <description>Domain model shared by the backend and the JavaFX front-end.
+        Mirrors the database schema in Assignment 2 section 10.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+    </dependencies>
+</project>

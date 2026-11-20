@@ -1,0 +1,173 @@
+@startuml class
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+hide circle
+
+title Legal Case Management ERP - Domain & Architecture Class Diagram
+
+package "shared (domain model)" {
+  class User {
+    - id : String
+    - name : String
+    - email : String
+    - role : Role
+    - active : boolean
+  }
+  enum Role {
+    LAWYER
+    CLIENT
+    ADMIN
+  }
+  class Case {
+    - id : String
+    - reference : String
+    - title : String
+    - clientName : String
+    - opposingParty : String
+    - status : CaseStatus
+    - matterType : String
+    - court : String
+    - amountInvolved : double
+  }
+  enum CaseStatus {
+    OPEN
+    IN_LITIGATION
+    PENDING_HEARING
+    ON_HOLD
+    CLOSED
+  }
+  class LegalDocument {
+    - fileName : String
+    - storagePath : String
+    - processingStatus : ProcessingStatus
+    - rejectionReason : String
+    - consentGranted : boolean
+  }
+  enum ProcessingStatus {
+    PROCESSING
+    PROCESSED
+    FAILED
+    REJECTED
+  }
+  class Extraction {
+    - fieldName : String
+    - fieldValue : String
+    - confidence : double
+    - spanText : String
+    - pageNumber : int
+  }
+  class Summary {
+    - paragraph1 : String
+    - paragraph2 : String
+    - paragraph3 : String
+    - version : int
+    - status : SummaryStatus
+  }
+  enum SummaryStatus {
+    DRAFT
+    APPROVED
+  }
+  class Deadline {
+    - title : String
+    - date : LocalDate
+    - reminderDays : int
+    - synced : boolean
+  }
+  class ClientMessage {
+    - fromLawyer : boolean
+    - readByClient : boolean
+    - readByLawyer : boolean
+  }
+  class Rating {
+    - score : int
+    - comment : String
+  }
+  class ActivityLog {
+    - action : String
+    - details : String
+    - level : Level
+  }
+}
+
+package "backend (service layer)" {
+  class AiPipeline {
+    + enqueue(doc, c)
+    + retry(doc, c)
+  }
+  class ExtractionEngine {
+    + extract(pages) : List<Extraction>
+  }
+  class Summarizer {
+    + summarize(text, c) : Result
+  }
+  class DocumentTextExtractor {
+    + extract(bytes, name) : PdfContent
+  }
+  class CalendarGateway <<interface>> {
+    + createEvent(d, c) : Receipt
+  }
+  class LocalCalendarGateway
+  class GoogleCalendarGateway
+  class EventBus {
+    + publish(event, data)
+  }
+  class AuditService {
+    + log(user, action, details, level)
+  }
+  class EncryptionUtil {
+    + encrypt(bytes) : String
+    + decrypt(b64) : byte[]
+  }
+}
+
+package "backend (api layer)" {
+  class AuthController
+  class CaseController
+  class DocumentController
+  class SummaryController
+  class CalendarController
+  class RatingController
+  class AdminController
+  class ClientPortalController
+}
+
+package "frontend (clients)" {
+  class WebClient {
+    (index.html + app.js + app.css)
+  }
+  class JavaFXClient {
+    (FXML views + controllers)
+  }
+}
+
+' ---- relationships ----
+User "1" --> "0..*" Case : "clientId"
+Case "1" --> "0..*" LegalDocument
+Case "1" --> "0..*" Deadline
+Case "1" --> "0..*" ClientMessage
+Case "1" --> "0..*" Summary
+LegalDocument "1" --> "0..*" Extraction
+LegalDocument "1" --> "0..1" Summary
+Case "1" --> "0..*" Rating
+
+AiPipeline ..> DocumentTextExtractor : uses
+AiPipeline ..> ExtractionEngine : uses
+AiPipeline ..> Summarizer : uses
+AiPipeline ..> AuditService : logs
+CalendarController ..> CalendarGateway : delegates
+LocalCalendarGateway ..|> CalendarGateway
+GoogleCalendarGateway ..|> CalendarGateway
+ClientMessage ..> EventBus : publishes "new-message"
+Deadline ..> EventBus : publishes "deadline-updated"
+
+AuthController ..> User : verifies
+CaseController ..> Case : CRUD
+DocumentController ..> LegalDocument : upload/delete/download
+AdminController ..> ActivityLog : reports
+
+WebClient ..> "REST + JWT" CaseController
+WebClient ..> "SSE" EventBus
+JavaFXClient ..> "REST + JWT" CaseController
+JavaFXClient ..> "REST + JWT" ClientPortalController
+
+@enduml

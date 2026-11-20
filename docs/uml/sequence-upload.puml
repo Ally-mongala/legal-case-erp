@@ -1,0 +1,43 @@
+@startuml sequence-upload
+skinparam shadowing false
+title Sequence Diagram - Document upload, AI processing and validation
+
+actor "Lawyer" as L
+participant "Browser / JavaFX" as UI
+participant "DocumentController" as DC
+participant "AiPipeline" as AP
+participant "DocumentTextExtractor" as TX
+participant "ExtractionEngine" as EX
+participant "Summarizer" as SM
+participant "Database" as DB
+participant "EventBus" as EB
+
+L -> UI : chooses PDF/Word + consent
+UI -> DC : POST /api/cases/{id}/documents (multipart)
+DC -> DB : INSERT document (encrypted, status=PROCESSING)
+DC --> UI : 201 {documentId, status=PROCESSING}
+DC -> AP : enqueue(document, case)
+activate AP
+AP -> TX : extract(bytes, fileName)
+TX --> AP : pages + fullText
+AP -> DB : save full_text
+AP -> EX : extract(pages)
+EX --> AP : extractions (confidence, span, page)
+AP -> DB : INSERT extractions
+alt validation fails (irrelevant / wrong matter)
+  AP -> DB : status = REJECTED + reason
+  AP -> EB : publish? no - audit only
+  AP -> AuditService : DOCUMENT_REJECTED
+  AP --> UI : (poll) status=REJECTED
+  UI -> L : shows BLOCKED chip + reason + highlighted extraction
+else validation passes
+  AP -> SM : summarize(fullText, case)
+  SM --> AP : Facts / Legal Issues / Current Status
+  AP -> DB : INSERT summary (DRAFT)
+  AP -> DB : status = PROCESSED
+  AP -> AuditService : AI_PROCESSED
+  AP --> UI : (poll) status=PROCESSED
+  UI -> L : shows extraction panel + editable summary immediately
+end
+deactivate AP
+@enduml

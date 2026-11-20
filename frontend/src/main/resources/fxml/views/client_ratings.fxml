@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="page" spacing="14"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="za.co.mongala.legal.ui.controller.ClientRatingsController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label text="Rate your lawyer" styleClass="page-title"/>
+            <Label text="Your feedback helps the firm improve"
+                   styleClass="page-subtitle"/>
+        </VBox>
+    </HBox>
+
+    <VBox styleClass="card" spacing="12" maxWidth="640">
+        <Label text="How was your experience?" styleClass="section-title"/>
+        <Label text="Tap the stars to choose a rating (1 - poor, 5 - excellent)" styleClass="row-sub"/>
+
+        <HBox fx:id="starRow" spacing="6" alignment="CENTER_LEFT"/>
+
+        <Label text="Your comment (optional)" styleClass="field-label"/>
+        <TextArea fx:id="commentArea" promptText="Tell your lawyer what went well or what could improve..."
+                  prefRowCount="4" wrapText="true"/>
+
+        <Label fx:id="statusLabel" styleClass="row-sub" wrapText="true"/>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button fx:id="submitButton" text="Submit rating" styleClass="btn-gold"/>
+        </HBox>
+    </VBox>
+
+    <VBox styleClass="card" spacing="8">
+        <Label text="Ratings received by the firm" styleClass="section-title"/>
+        <VBox fx:id="ratingsBox" spacing="6"/>
+    </VBox>
+</VBox>

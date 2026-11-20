@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Region?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="page" spacing="14"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="za.co.mongala.legal.ui.controller.AdminUsersController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label text="Users &amp; roles" styleClass="page-title"/>
+        </VBox>
+    </HBox>
+
+    <VBox styleClass="card" spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="System users" styleClass="section-title"/>
+        <TableView fx:id="userTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="nameCol" text="Name" prefWidth="200"/>
+                <TableColumn fx:id="emailCol" text="Email" prefWidth="260"/>
+                <TableColumn fx:id="roleCol" text="Role" prefWidth="130"/>
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="120"/>
+                <TableColumn fx:id="actionCol" text="Action" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

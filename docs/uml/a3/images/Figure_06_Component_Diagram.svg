@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="960px" preserveAspectRatio="none" style="width:2183px;height:960px;" version="1.1" viewBox="0 0 2183 960" width="2183px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="348" x="921" y="10.4736">Figure 5: Component Diagram - Module Structure and Software Dependencies</text><!--MD5=[d2242131270c237e071fd8738247fbb8]
+cluster FE--><polygon fill="#FCFDFE" points="266,45.4277,380,45.4277,387,64.8555,422,64.8555,422,400.9277,266,400.9277,266,45.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="266" x2="387" y1="64.8555" y2="64.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="108" x="270" y="57.9014">legal-case-erp-frontend</text><!--MD5=[1115bcea43a32067cb578b3812def63a]
+cluster WEBPKG--><polygon fill="#FCFDFE" points="566,179.4277,688,179.4277,695,198.8555,742,198.8555,742,274.4277,566,274.4277,566,179.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="566" x2="695" y1="198.8555" y2="198.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="116" x="570" y="191.9014">backend :: web resources</text><!--MD5=[43a3fb635c12febb4cb7028741c09213]
+cluster BE--><polygon fill="#FCFDFE" points="371,454.4277,483,454.4277,490,473.8555,1936,473.8555,1936,948.4277,371,948.4277,371,454.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="371" x2="490" y1="473.8555" y2="473.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="106" x="375" y="466.9014">legal-case-erp-backend</text><!--MD5=[7442f3b126ee602ae02566c1a49e158a]
+cluster api--><polygon fill="#FCFDFE" points="533,509.4277,553,509.4277,560,528.8555,1503,528.8555,1503,590.4277,533,590.4277,533,509.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="533" x2="560" y1="528.8555" y2="528.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="14" x="537" y="521.9014">api</text><!--MD5=[7579d5565d2521d5936cec86ed3dadee]
+cluster service--><polygon fill="#FCFDFE" points="772,673.9277,811,673.9277,818,693.3555,1477,693.3555,1477,916.4277,772,916.4277,772,673.9277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="772" x2="818" y1="693.3555" y2="693.3555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="33" x="776" y="686.4014">service</text><!--MD5=[89194cbfe2083706675d32024141f2ba]
+cluster nlp  <<emerging technology>>--><polygon fill="#FCFDFE" points="1501,835.4277,1644,835.4277,1651,854.8555,1904,854.8555,1904,916.4277,1501,916.4277,1501,835.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="1501" x2="1651" y1="854.8555" y2="854.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="137" x="1505" y="847.9014">nlp  &lt;&lt;emerging technology&gt;&gt;</text><!--MD5=[ab20e4a9c8d61b48eb2ccc358253a529]
+cluster calendar--><polygon fill="#FCFDFE" points="1527,509.4277,1573,509.4277,1580,528.8555,1849,528.8555,1849,590.4277,1527,590.4277,1527,509.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="1527" x2="1580" y1="528.8555" y2="528.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="40" x="1531" y="521.9014">calendar</text><!--MD5=[c654d4e40738683e0b0b0570429812dd]
+cluster auth / security--><polygon fill="#FCFDFE" points="411,835.4277,484,835.4277,491,854.8555,748,854.8555,748,916.4277,411,916.4277,411,835.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="411" x2="491" y1="854.8555" y2="854.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="67" x="415" y="847.9014">auth / security</text><!--MD5=[e8f3788ad7b97e8de68b4194558bc2a1]
+cluster db--><polygon fill="#FCFDFE" points="411,502.4277,429,502.4277,436,521.8555,509,521.8555,509,597.4277,411,597.4277,411,502.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="411" x2="436" y1="521.8555" y2="521.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="12" x="415" y="514.9014">db</text><!--MD5=[6510ca47e5d8b57dacda890ac943d682]
+cluster SH--><polygon fill="#FCFDFE" points="92,652.4277,196,652.4277,203,671.8555,331,671.8555,331,776.4277,92,776.4277,92,652.4277" style="stroke: #365F91; stroke-width: 1.5;"/><line style="stroke: #365F91; stroke-width: 1.5;" x1="92" x2="203" y1="671.8555" y2="671.8555"/><text fill="#000000" font-family="Carlito" font-size="11" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="98" x="96" y="664.9014">legal-case-erp-shared</text><!--MD5=[dff844ad55727b411e66133b34442261]
+entity FXAPP--><rect fill="#F4F7FB" height="46.8555" style="stroke: #1F3864; stroke-width: 1.5;" width="61" x="331.5" y="85.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="326.5" y="90.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="326.5" y="122.2832"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="41" x="341.5" y="105.9014">MainApp</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="36" x="341.5" y="119.3291">(JavaFX)</text><!--MD5=[bd39380e5cad0871e4873a0a8e5db8d6]
+entity APICLI--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="62" x="331" y="218.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="326" y="223.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="326" y="241.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="42" x="341" y="238.9014">ApiClient</text><!--MD5=[6648256f2352bd1864363e9ab5d759b2]
+entity RDS--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="100" x="298" y="343.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="293" y="348.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="293" y="367.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="80" x="308" y="364.4014">RemoteDataStore</text><!--MD5=[5c08e3c416864d3065046d681dbeb868]
+entity WEBC--><rect fill="#F4F7FB" height="46.8555" style="stroke: #1F3864; stroke-width: 1.5;" width="144" x="582" y="211.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="577" y="216.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="577" y="248.2832"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="66" x="592" y="231.9014">Browser Client</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="124" x="592" y="245.3291">index.html · app.js · app.css</text><!--MD5=[55b6f7fe569c88e778889e4a7d46dc6f]
+entity C1--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="89" x="548.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="543.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="543.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="558.5" y="561.9014">AuthController</text><!--MD5=[2324993324a80522a7091d42b9118e29]
+entity C2--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="87" x="672.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="667.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="667.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="67" x="682.5" y="561.9014">CaseController</text><!--MD5=[05d3c132bed6e058ad55d82af5f30f96]
+entity C3--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="115" x="1084.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1079.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1079.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="95" x="1094.5" y="561.9014">DocumentController</text><!--MD5=[92ed0b7d55449354be29483e00621f1b]
+entity C4--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="110" x="1235" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1230" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1230" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="90" x="1245" y="561.9014">SummaryController</text><!--MD5=[0a290dd6561bb81b175e35ca26bbbf0c]
+entity C5--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="107" x="1380.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1375.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1375.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="87" x="1390.5" y="561.9014">CalendarController</text><!--MD5=[217c58744140f3586f22ecd1419b458c]
+entity C6--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="97" x="952.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="947.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="947.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="77" x="962.5" y="561.9014">AdminController</text><!--MD5=[c3a4467903cbb3459deb95b9c6007ccb]
+entity C7--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="122" x="795" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="790" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="790" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="102" x="805" y="561.9014">ClientPortalController</text><!--MD5=[d0cae5ff9305becd6f502d4fe4f41481]
+entity S1--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="72" x="788" y="705.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="783" y="710.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="783" y="729.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="52" x="798" y="726.4014">CaseService</text><!--MD5=[d3395af3100fe8cebf35265100c4415f]
+entity S2--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="100" x="1008" y="705.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1003" y="710.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1003" y="729.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="80" x="1018" y="726.4014">DocumentService</text><!--MD5=[6c7192638421eaf134d201765ac5db29]
+entity S3--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="66" x="1143" y="705.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1138" y="710.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1138" y="729.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="46" x="1153" y="726.4014">AiPipeline</text><!--MD5=[01b905ebe31ca24275b86a9951c478d0]
+entity S4--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="92" x="1369" y="705.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1364" y="710.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1364" y="729.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="72" x="1379" y="726.4014">DeadlineService</text><!--MD5=[099bd2cf1f4f3a6dbf2f1fde6174f38e]
+entity S5--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="89" x="1244.5" y="705.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1239.5" y="710.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1239.5" y="729.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="1254.5" y="726.4014">MessageService</text><!--MD5=[0656c7721b015b9ca8cf2e2c2e8f5aee]
+entity S6--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="77" x="895.5" y="705.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="890.5" y="710.9277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="890.5" y="729.3555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="57" x="905.5" y="726.4014">AuditService</text><!--MD5=[6ba532df225878998c5769132c3837e2]
+entity S7--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="61" x="1145.5" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1140.5" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1140.5" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="41" x="1155.5" y="887.9014">EventBus</text><!--MD5=[f042970fa631b194e0ab6c1248938917]
+entity N1--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="97" x="1681.5" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1676.5" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1676.5" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="77" x="1691.5" y="887.9014">ExtractionEngine</text><!--MD5=[4b5ab69de11007997fdc27e7483449f4]
+entity N2--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="74" x="1814" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1809" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1809" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="54" x="1824" y="887.9014">Summarizer</text><!--MD5=[88d2825575bc912acb410aaf1314a865]
+entity N3--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="129" x="1517.5" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1512.5" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1512.5" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="109" x="1527.5" y="887.9014">DocumentTextExtractor</text><!--MD5=[d660fa1999a4baf1bb8e35bc16caa444]
+entity G1--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="131" x="1543.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1538.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1538.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="111" x="1553.5" y="561.9014">GoogleCalendarGateway</text><!--MD5=[0c9f30de428ee4c9a7419b67e573c79a]
+entity G2--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="123" x="1709.5" y="541.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1704.5" y="546.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="1704.5" y="564.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="103" x="1719.5" y="561.9014">LocalCalendarGateway</text><!--MD5=[dfae1eed2abc21ab69754b6fdcc5c358]
+entity SEC1--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="53" x="556.5" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="551.5" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="551.5" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="33" x="566.5" y="887.9014">JwtUtil</text><!--MD5=[f508d765596f8dea41544d91c10ac9ba]
+entity SEC2--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="94" x="427" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="422" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="422" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="74" x="437" y="887.9014">PasswordHasher</text><!--MD5=[0a62a5d8ee8c080a6357dc28db223c44]
+entity SEC3--><rect fill="#F4F7FB" height="33.4277" style="stroke: #1F3864; stroke-width: 1.5;" width="87" x="644.5" y="867.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="639.5" y="872.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="639.5" y="890.8555"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="67" x="654.5" y="887.9014">EncryptionUtil</text><!--MD5=[2e562da9647e31c4c313dd3ee16dbd6f]
+entity DBC--><rect fill="#F4F7FB" height="46.8555" style="stroke: #1F3864; stroke-width: 1.5;" width="65" x="427.5" y="534.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="422.5" y="539.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="422.5" y="571.2832"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="41" x="437.5" y="554.9014">Database</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="45" x="437.5" y="568.3291">(HikariCP)</text><!--MD5=[3fcccb19da09ca98d2d053148d8c1c3c]
+entity MODEL--><rect fill="#F4F7FB" height="60.2832" style="stroke: #1F3864; stroke-width: 1.5;" width="172" x="135" y="692.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="130" y="697.4277"/><rect fill="#F4F7FB" height="5" style="stroke: #1F3864; stroke-width: 1.5;" width="10" x="130" y="742.7109"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="67" x="145" y="712.9014">Domain model</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="152" x="145" y="726.3291">Case · LegalDocument · Extraction</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="117" x="145" y="739.7568">Summary · Deadline · User</text><!--MD5=[275c6187af916345f429c9f8906b7e38]
+entity IREST--><ellipse cx="654" cy="360.4277" fill="#FFF9EC" rx="8" ry="8" style="stroke: #8A6D3B; stroke-width: 2.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="52" x="625.5" y="387.9014">REST / JSON</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="57" x="625.5" y="401.3291">+ Bearer JWT</text><!--MD5=[cdc54aa72698a032b5aa4ad96e4303a4]
+entity IAI--><ellipse cx="2012" cy="722.4277" fill="#FFF9EC" rx="8" ry="8" style="stroke: #8A6D3B; stroke-width: 2.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="88" x="1968" y="749.9014">AiExtractionService</text><!--MD5=[1a9e4e4927ea31f7b50b3514621992bd]
+entity ICAL--><ellipse cx="1771" cy="360.4277" fill="#FFF9EC" rx="8" ry="8" style="stroke: #8A6D3B; stroke-width: 2.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="79" x="1731.5" y="387.9014">CalendarGateway</text><!--MD5=[0164b083aed01c4182d5c57097fc180b]
+entity IJDBC--><ellipse cx="298" cy="883.9277" fill="#FFF9EC" rx="8" ry="8" style="stroke: #8A6D3B; stroke-width: 2.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="83" x="256.5" y="911.4014">JDBC / DataSource</text><path d="M1960.5,845.4277 L1960.5,922.5664 L2171.5,922.5664 L2171.5,855.4277 L2161.5,845.4277 L1960.5,845.4277 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M2161.5,845.4277 L2161.5,855.4277 L2171.5,855.4277 L2161.5,845.4277 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="190" x="1966.5" y="860.9014">The AI component is reached only through</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="179" x="1966.5" y="874.3291">the AiExtractionService interface, so the</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="171" x="1966.5" y="887.7568">rule-based engine can be replaced by a</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="185" x="1966.5" y="901.1846">fine-tuned transformer without changing</text><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="174" x="1966.5" y="914.6123">any caller (Strategy / Gateway pattern).</text><!--MD5=[2407b6d09471a01501a6b2d78f790a4f]
+link WEBC to IREST--><path d="M654,258.5777 C654,282.3077 654,319.1177 654,341.0977 " fill="none" id="WEBC-&gt;IREST" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M662.4572,348.2596 A9,9 0 0 0 645.5428 348.2596" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[add656cd016f1222e64b1e0e04e19058]
+link APICLI to IREST--><path d="M393.25,249.1477 C454.11,274.8877 586.83,331.0177 635.57,351.6277 " fill="none" id="APICLI-&gt;IREST" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M645.3299,346.579 A9,9 0 0 0 638.7575 362.1643" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[96db41ddf2c049eba658cdf3b11656b0]
+link IREST to C1--><path d="M651.38,369.8277 C642.03,399.7977 610.22,501.7477 597.91,541.1777 " fill="none" id="IREST-C1" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[e6cff2a761841b910cd4dd0bf7f588ce]
+link IREST to C2--><path d="M656.66,369.8277 C666.17,399.7977 698.5,501.7477 711,541.1777 " fill="none" id="IREST-C2" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[0d96dca23e52a5fbb3e33bb1348f183c]
+link IREST to C3--><path d="M663.05,362.1377 C717.1,366.5077 997.26,391.1777 1067,438.4277 C1104.69,463.9677 1127.34,515.4277 1136.81,541.3077 " fill="none" id="IREST-C3" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[675851c0eeed77c8da35b5561a57c445]
+link FXAPP to APICLI--><path d="M362,132.6677 C362,155.7177 362,191.0477 362,213.2977 " fill="none" id="FXAPP-&gt;APICLI" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="362,218.3877,366,209.3877,362,213.3877,358,209.3877,362,218.3877" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[85e0158affdc6adfa6dcf3e3a3563845]
+link APICLI to RDS--><path d="M360.23,251.5677 C357.71,273.7477 353.11,314.3577 350.32,338.9277 " fill="none" id="APICLI-&gt;RDS" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="349.76,343.9177,354.7375,335.4192,350.3169,338.9488,346.7872,334.5282,349.76,343.9177" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[bd82b1ba50b4119bf5ae5e1a356974f4]
+link C1 to SEC1--><path d="M592.52,574.5577 C590.88,627.6877 585.52,801.3977 583.65,861.9177 " fill="none" id="C1-&gt;SEC1" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="583.49,867.0777,587.7707,858.2078,583.6471,862.0802,579.7747,857.9565,583.49,867.0777" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[a8965a9ef72f9f1247fe38f06f1e906a]
+link C1 to SEC2--><path d="M587.26,574.5577 C567.71,627.7877 503.69,802.0977 481.58,862.2777 " fill="none" id="C1-&gt;SEC2" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="479.82,867.0777,486.6807,860.0116,481.5459,862.385,479.1724,857.2502,479.82,867.0777" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[6229751bc1880111471dce56487b3cf4]
+link C2 to S1--><path d="M726.36,574.5077 C746.06,604.1577 788.93,668.6577 810.71,701.4377 " fill="none" id="C2-&gt;S1" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="813.52,705.6577,811.8713,695.9479,810.7531,701.4931,805.2078,700.3749,813.52,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[d6bbc9eb58936c9f64571cf122c5b2c7]
+link C3 to S2--><path d="M1133.95,574.5077 C1118.68,604.0377 1085.55,668.1277 1068.54,701.0377 " fill="none" id="C3-&gt;S2" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="1066.15,705.6577,1073.8398,699.5042,1068.4487,701.2175,1066.7354,695.8263,1066.15,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[81cdbc4a230327c6d1ae1a4e220e0fac]
+link C3 to S3--><path d="M1145.26,574.5077 C1151.41,603.9177 1164.74,667.6077 1171.65,700.6277 " fill="none" id="C3-&gt;S3" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="1172.7,705.6577,1174.7658,696.028,1171.6728,700.7644,1166.9364,697.6714,1172.7,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[63beb706283c67c992a94965e691e062]
+link C4 to S3--><path d="M1276.29,574.4377 C1263.04,589.7277 1242.73,613.9977 1227,636.4277 C1212.1,657.6777 1197.05,683.3977 1187.21,700.9377 " fill="none" id="C4-&gt;S3" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="1184.57,705.6577,1192.4522,699.7525,1187.0091,701.293,1185.4686,695.85,1184.57,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[71e0b8340615cdb590b508214b47c01a]
+link C5 to S4--><path d="M1432.18,574.5077 C1428.74,603.9177 1421.29,667.6077 1417.43,700.6277 " fill="none" id="C5-&gt;S4" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="1416.84,705.6577,1421.8443,697.175,1417.4126,700.6906,1413.897,696.2589,1416.84,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[b458c6800733f16f85d44e26a9fd9830]
+link C6 to S6--><path d="M994.58,574.5077 C982.45,603.9177 956.19,667.6077 942.58,700.6277 " fill="none" id="C6-&gt;S6" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="940.5,705.6577,947.6181,698.8509,942.3987,701.0323,940.2173,695.8129,940.5,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[7389ee7565e9cccbbacac711bd0b299a]
+link C7 to S1--><path d="M852.93,574.5077 C847.14,603.9177 834.6,667.6077 828.1,700.6277 " fill="none" id="C7-&gt;S1" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="827.11,705.6577,832.7838,697.6074,828.0823,700.7532,824.9366,696.0517,827.11,705.6577" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[012969df21146c7d318d296be3cb72b0]
+link S3 to IAI--><path d="M1180.66,705.7377 C1188.75,680.6577 1208.12,634.7177 1244.5,620.9277 C1388.49,566.3277 1889.65,690.7977 1993.2,717.5077 " fill="none" id="S3-&gt;IAI" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M2002.0355,711.0684 A9,9 0 0 0 1997.7856 727.4402" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[0e1c618b7582828ae9150c937756ae0b]
+link IAI to N1--><path d="M2002.99,726.8677 C1972.67,738.6377 1872,779.2377 1797,827.4277 C1778.57,839.2677 1759.53,855.4977 1746.47,867.3477 " fill="none" id="IAI-N1" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[8c00f4cb70a82a00feeba505d4a2ba6d]
+link IAI to N2--><path d="M2003.79,731.5577 C1978.36,756.7577 1900.5,833.8877 1866.81,867.2677 " fill="none" id="IAI-N2" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[93e51191406fbbd5533301d7dbeb781d]
+link S3 to N3--><path d="M1183.04,739.2177 C1191.16,755.4377 1206.13,780.0177 1227,792.4277 C1233.03,796.0177 1470.33,825.2677 1477,827.4277 C1504.54,836.3277 1533.45,852.1577 1553.95,864.6377 " fill="none" id="S3-&gt;N3" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="1558.45,867.4077,1552.8936,859.2759,1554.1956,864.7809,1548.6907,866.0829,1558.45,867.4077" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[3bd22c52bb94f536cd8df8008150bddc]
+link S3 to SEC3--><path d="M1169.42,739.0777 C1161.64,755.4277 1147.04,780.3477 1126,792.4277 C1057.44,831.7877 846.49,800.9777 772,827.4277 C748.92,835.6277 725.94,851.4777 709.86,864.1477 " fill="none" id="S3-&gt;SEC3" style="stroke: #1F3864; stroke-width: 1.0;"/><polygon fill="#1F3864" points="705.93,867.2977,715.4532,864.7862,709.8302,864.169,710.4473,858.5459,705.93,867.2977" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[ef0ffcf558c1f12c9a871525facfc9fd]
+link S4 to ICAL--><path d="M1461.02,716.1277 C1562.73,703.3777 1801.44,667.3677 1849,605.4277 C1894.2,546.5577 1877.62,506.9077 1849,438.4277 C1836.77,409.1577 1807.38,385.3577 1788.38,372.3077 " fill="none" id="S4-&gt;ICAL" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M1777.922,375.5545 A9,9 0 0 0 1787.2206 361.4254" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[e8cec093f8886d1cccc30eba71477351]
+link ICAL to G1--><path d="M1761.69,369.4677 C1746.32,382.9377 1715.07,411.2877 1692,438.4277 C1662.55,473.0677 1633.25,517.9577 1618.62,541.2977 " fill="none" id="ICAL-G1" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[9cedf0db48fc3a3e30463f56bf43eee1]
+link ICAL to G2--><path d="M1771,369.8277 C1771,399.7977 1771,501.7477 1771,541.1777 " fill="none" id="ICAL-G2" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[3c953abf93ea4b672a382c10ddd15546]
+link S1 to IJDBC--><path d="M787.95,725.8677 C716.67,731.6777 553.64,749.8077 427,800.4277 C383.44,817.8377 338.64,850.4477 315.01,869.0277 " fill="none" id="S1-&gt;IJDBC" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M314.7137,880.0839 A9,9 0 0 0 304.1562 866.8689" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[234c9d43ce960b5b7189ac21d0471d9f]
+link S2 to IJDBC--><path d="M1047.91,739.0377 C1036.21,755.5977 1015.26,780.9477 990,792.4277 C982.67,795.7577 418.79,825.3677 411,827.4277 C375.27,836.8777 337.44,858.0577 315.87,871.3477 " fill="none" id="S2-&gt;IJDBC" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M314.2827,882.3422 A9,9 0 0 0 305.266 868.0314" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[9122269068b9b7cbbd44a4548940b8ae]
+link S6 to IJDBC--><path d="M926.47,739.1477 C917.52,755.8177 900.87,781.2477 878,792.4277 C858.48,801.9677 508.37,796.5177 487,800.4277 C451.74,806.8777 444.03,813.5077 411,827.4277 C376.77,841.8577 338.18,861.5877 316.11,873.2277 " fill="none" id="S6-&gt;IJDBC" style="stroke: #1F3864; stroke-width: 1.0;"/><path d="M313.8897,883.9894 A9,9 0 0 0 305.9701 869.0435" fill="none" style="stroke: #1F3864; stroke-width: 1.5;"/><!--MD5=[48b362497b05b68ae98818276405535f]
+link IJDBC to DBC--><path d="M288.94,882.4177 C254.72,879.9477 132.81,866.0577 84,792.4277 C45.69,734.6377 50.32,697.0277 84,636.4277 C93.41,619.5077 102.45,618.9877 121,613.4277 C153.26,603.7577 393.96,620.6577 424,605.4277 C434.2,600.2577 442.36,590.7077 448.32,581.6077 " fill="none" id="IJDBC-DBC" style="stroke: #1F3864; stroke-width: 1.0;"/><!--MD5=[b2c2ae322451a9391558213f732d652a]
+link S2 to S7--><path d="M1069.53,739.0077 C1091.06,768.1177 1137.36,830.7077 1161.18,862.8977 " fill="none" id="S2-&gt;S7" style="stroke: #1F3864; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#1F3864" points="1164.25,867.0477,1162.1105,857.4341,1161.2752,863.0289,1155.6804,862.1937,1164.25,867.0477" style="stroke: #1F3864; stroke-width: 1.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="34" x="1125" y="811.9014">publish</text><!--MD5=[1c90a79dc754100388f73e42a56b38b8]
+link S5 to S7--><path d="M1277.96,739.0077 C1257.34,768.1177 1213,830.7077 1190.19,862.8977 " fill="none" id="S5-&gt;S7" style="stroke: #1F3864; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#1F3864" points="1187.25,867.0477,1195.7294,862.0378,1190.1508,862.9752,1189.2134,857.3966,1187.25,867.0477" style="stroke: #1F3864; stroke-width: 1.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="34" x="1233" y="811.9014">publish</text><!--MD5=[af74b9b2bd2da4cebd4908fc81315719]
+link S3 to S7--><path d="M1176,739.0077 C1176,767.7577 1176,829.1777 1176,861.6977 " fill="none" id="S3-&gt;S7" style="stroke: #1F3864; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#1F3864" points="1176,867.0477,1180,858.0477,1176,862.0477,1172,858.0477,1176,867.0477" style="stroke: #1F3864; stroke-width: 1.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="34" x="1177" y="811.9014">publish</text><!--MD5=[28b13644df1d014ebad54222855eb253]
+link BE to SH--><path d="M370.9415,558.6328 C370.7847,558.6291 370.6258,558.6256 370.4648,558.622 C370.1427,558.615 369.8123,558.6081 369.4735,558.6015 C364.0539,558.4963 356.5166,558.4592 347.3708,558.6945 C329.0791,559.1649 304.3531,560.7246 277.2663,565.0065 C223.0925,573.5702 159.475,593.0227 119,636.4277 C115.8025,639.8565 113.1008,643.7012 110.8217,647.8108 C110.2519,648.8382 109.7085,649.8822 109.1904,650.9403 C109.0609,651.2049 108.9329,651.4703 108.8066,651.7366 C108.7434,651.8697 108.6806,652.0031 108.6182,652.1366 " fill="none" id="BE-&gt;SH" style="stroke: #1F3864; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#1F3864" points="108.6182,652.1366,116.0522,645.6764,110.735,647.6068,108.8046,642.2895,108.6182,652.1366" style="stroke: #1F3864; stroke-width: 1.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="52" x="141" y="624.9014">depends on</text><!--MD5=[be6e70d827414ae7b62392d64d65ad51]
+link FE to SH--><path d="M265.8002,109.8588 C265.6055,109.8591 265.4075,109.8595 265.2065,109.8601 C264.8043,109.8613 264.3896,109.8629 263.9625,109.8651 C263.1083,109.8696 262.2047,109.8764 261.2536,109.8861 C253.6452,109.9635 243.0014,110.2249 230.3447,110.9484 C205.0313,112.3952 171.6663,115.6902 138.43,123.0577 C71.9575,137.7927 6,168.8177 6,233.9277 C6,233.9277 6,233.9277 6,558.9277 C6,599.9927 28.7725,640.0002 51.9,670.0427 C63.4638,685.064 75.1163,697.594 84.0553,706.5193 C86.2901,708.7506 88.3553,710.7567 90.2071,712.52 C90.67,712.9608 91.1196,713.3865 91.5552,713.7967 C91.6641,713.8993 91.7721,714.0009 91.8793,714.1015 " fill="none" id="FE-&gt;SH" style="stroke: #1F3864; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#1F3864" points="91.8793,714.1015,88.0575,705.0244,88.2347,710.6785,82.5806,710.8557,91.8793,714.1015" style="stroke: #1F3864; stroke-width: 1.0;"/><text fill="#000000" font-family="Carlito" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="52" x="7" y="364.4014">depends on</text><!--MD5=[b138357e8b99db56f4f8aa50770a031c]
+link N1 to GMN78--><path d="M1742.75,867.1477 C1757.67,849.0477 1784.2,821.3177 1814.5,809.9277 C1879.36,785.5377 1956.03,816.3377 2007.52,845.2977 " fill="none" id="N1-GMN78" style="stroke: #1F3864; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[517e04d5521ef9be5e2658e7d79c537f]
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 11
+skinparam componentStyle rectangle
+skinparam component {
+  BorderColor #1F3864
+  BackgroundColor #F4F7FB
+}
+skinparam interface {
+  BorderColor #8A6D3B
+  BackgroundColor #FFF9EC
+}
+skinparam package {
+  BorderColor #365F91
+  BackgroundColor #FCFDFE
+}
+skinparam ArrowColor #1F3864
+
+title Figure 5: Component Diagram - Module Structure and Software Dependencies
+
+package "legal-case-erp-frontend" as FE {
+  component "MainApp\n(JavaFX)" as FXAPP
+  component "ApiClient" as APICLI
+  component "RemoteDataStore" as RDS
+}
+
+package "backend :: web resources" as WEBPKG {
+  component "Browser Client\nindex.html · app.js · app.css" as WEBC
+}
+
+package "legal-case-erp-backend" as BE {
+
+  package "api" {
+    component "AuthController" as C1
+    component "CaseController" as C2
+    component "DocumentController" as C3
+    component "SummaryController" as C4
+    component "CalendarController" as C5
+    component "AdminController" as C6
+    component "ClientPortalController" as C7
+  }
+
+  package "service" {
+    component "CaseService" as S1
+    component "DocumentService" as S2
+    component "AiPipeline" as S3
+    component "DeadlineService" as S4
+    component "MessageService" as S5
+    component "AuditService" as S6
+    component "EventBus" as S7
+  }
+
+  package "nlp  <<emerging technology>>" {
+    component "ExtractionEngine" as N1
+    component "Summarizer" as N2
+    component "DocumentTextExtractor" as N3
+  }
+
+  package "calendar" {
+    component "GoogleCalendarGateway" as G1
+    component "LocalCalendarGateway" as G2
+  }
+
+  package "auth / security" {
+    component "JwtUtil" as SEC1
+    component "PasswordHasher" as SEC2
+    component "EncryptionUtil" as SEC3
+  }
+
+  package "db" {
+    component "Database\n(HikariCP)" as DBC
+  }
+}
+
+package "legal-case-erp-shared" as SH {
+  component "Domain model\nCase · LegalDocument · Extraction\nSummary · Deadline · User" as MODEL
+}
+
+interface "REST / JSON\n+ Bearer JWT" as IREST
+interface "AiExtractionService" as IAI
+interface "CalendarGateway" as ICAL
+interface "JDBC / DataSource" as IJDBC
+
+WEBC  - -( IREST
+APICLI - -( IREST
+IREST - - C1
+IREST - - C2
+IREST - - C3
+
+FXAPP - -> APICLI
+APICLI - -> RDS
+
+C1 - -> SEC1
+C1 - -> SEC2
+C2 - -> S1
+C3 - -> S2
+C3 - -> S3
+C4 - -> S3
+C5 - -> S4
+C6 - -> S6
+C7 - -> S1
+
+S3 - -( IAI
+IAI - - N1
+IAI - - N2
+S3 - -> N3
+S3 - -> SEC3
+S4 - -( ICAL
+ICAL - - G1
+ICAL - - G2
+
+S1 - -( IJDBC
+S2 - -( IJDBC
+S6 - -( IJDBC
+IJDBC - - DBC
+
+S2 ..> S7 : publish
+S5 ..> S7 : publish
+S3 ..> S7 : publish
+
+BE ..> SH : depends on
+FE ..> SH : depends on
+
+note right of N1
+  The AI component is reached only through
+  the AiExtractionService interface, so the
+  rule-based engine can be replaced by a
+  fine-tuned transformer without changing
+  any caller (Strategy / Gateway pattern).
+end note
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 21.0.12.1+1-1-deb13u1-Debian
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

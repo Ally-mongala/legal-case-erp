@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LegalCase ERP</title>
+<meta name="theme-color" content="#16233C">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<a href="#content" class="skip-link">Skip to main content</a>
+
+<!-- ============ LOGIN VIEW ============ -->
+<div id="login-view" class="login-wrap">
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-logo">&#9878;</div>
+      <h1>LegalCase ERP</h1>
+      <p>Legal practice management with AI document understanding</p>
+    </div>
+    <form id="login-form" class="login-form">
+      <label>Email address</label>
+      <input id="login-email" type="email" placeholder="you@firm.co.za" autocomplete="username" required>
+      <label>Password</label>
+      <div class="pw-wrap">
+        <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" required>
+        <button type="button" id="pw-toggle" class="pw-toggle" tabindex="-1">Show</button>
+      </div>
+      <div id="login-error" class="error hidden" role="alert" aria-live="polite"></div>
+      <button type="submit" class="btn btn-primary btn-block">Sign in to workspace</button>
+      <p class="hint">Role-based access: lawyers, clients and administrators sign in here.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app" class="app hidden">
+  <header class="topbar" role="banner">
+    <div class="brand-mini"><span class="brand-logo-sm">&#9878;</span><b>LegalCase ERP</b></div>
+    <div class="topbar-right">
+      <button type="button" id="theme-btn" class="btn btn-sm btn-ghost" onclick="toggleDarkMode()" aria-pressed="false" title="Switch between light and dark mode" aria-label="Toggle dark mode">Dark</button>
+      <button type="button" class="btn btn-sm btn-ghost" onclick="toggleLargeText()" title="Toggle large readable text" aria-label="Toggle large text">A+</button>
+      <button type="button" class="btn btn-sm btn-ghost" onclick="toggleHighContrast()" title="Toggle high-contrast mode" aria-label="Toggle high contrast">Contrast</button>
+      <button id="alert-bell" class="alert-bell hidden" title="New messages" aria-label="Unread messages">&#128276; <span id="alert-count">0</span></button>
+      <span id="top-user" class="top-user"></span>
+      <span id="top-role" class="role-chip"></span>
+      <button id="logout-btn" class="btn btn-ghost">Log out</button>
+    </div>
+  </header>
+  <div class="app-body">
+    <nav id="nav" class="sidebar" role="navigation" aria-label="Primary navigation"></nav>
+    <main id="content" class="content" role="main" tabindex="-1"></main>
+  </div>
+  <footer class="statusbar"><span id="status-text">LegalCase ERP</span></footer>
+</div>
+
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

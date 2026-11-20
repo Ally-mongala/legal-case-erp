@@ -1,0 +1,25 @@
+# Caddy = the public front door. It terminates HTTPS (when SITE_ADDRESS is a domain)
+# and forwards everything to the backend container.
+{$SITE_ADDRESS::80} {
+    encode zstd gzip
+
+    # Server-Sent Events (live message bell, live dashboard) must not be buffered
+    reverse_proxy backend:8080 {
+        flush_interval -1
+        transport http {
+            read_timeout 3600s
+        }
+    }
+
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy strict-origin-when-cross-origin
+        X-Frame-Options SAMEORIGIN
+        -Server
+    }
+
+    log {
+        output stdout
+        format console
+    }
+}

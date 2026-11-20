@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="scroll-pane"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="za.co.mongala.legal.ui.controller.CaseDetailController">
+
+    <VBox styleClass="page" spacing="14">
+
+        <!-- Back -->
+        <Button fx:id="backButton" text="&#8592;  Back to cases" styleClass="btn-ghost" maxWidth="Infinity" alignment="CENTER_LEFT"/>
+
+        <!-- Case header -->
+        <VBox styleClass="card" spacing="10">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label fx:id="caseRefLabel" styleClass="case-ref"/>
+                <Label fx:id="statusBadge" styleClass="chip"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Status:" styleClass="meta-key"/>
+                <ComboBox fx:id="statusBox" prefWidth="150"/>
+                <Button fx:id="applyStatusButton" text="Apply" styleClass="btn-ghost"/>
+                <Button fx:id="editCaseButton" text="Edit case" styleClass="btn-ghost"/>
+                <Button fx:id="deleteCaseButton" text="Delete case" styleClass="btn-danger"/>
+            </HBox>
+            <Label fx:id="caseTitleLabel" styleClass="case-title"/>
+            <GridPane hgap="28" vgap="6">
+                <Label text="CLIENT" styleClass="meta-key" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label fx:id="metaClient" styleClass="meta-value" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="OPPOSING PARTY" styleClass="meta-key" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <Label fx:id="metaOpposing" styleClass="meta-value" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                <Label text="COURT" styleClass="meta-key" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label fx:id="metaCourt" styleClass="meta-value" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="MATTER TYPE" styleClass="meta-key" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <Label fx:id="metaMatter" styleClass="meta-value" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                <Label text="OPENED" styleClass="meta-key" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label fx:id="metaOpened" styleClass="meta-value" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Label text="AMOUNT" styleClass="meta-key" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                <Label fx:id="metaAmount" styleClass="meta-value" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+            </GridPane>
+        </VBox>
+
+        <!-- Documents -->
+        <VBox styleClass="card" spacing="8">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Documents" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ProgressBar fx:id="uploadProgress" prefWidth="170" visible="false"/>
+                <Button fx:id="uploadButton" text="Upload legal PDF" styleClass="btn-primary"/>
+            </HBox>
+            <Label fx:id="processingLabel" styleClass="row-sub" visible="false" managed="false"/>
+            <TableView fx:id="docTable" prefHeight="172" styleClass="table-view">
+                <columns>
+                    <TableColumn fx:id="docNameCol" text="File name" prefWidth="280"/>
+                    <TableColumn fx:id="docSizeCol" text="Size" prefWidth="80"/>
+                    <TableColumn fx:id="docUploadCol" text="Uploaded" prefWidth="200"/>
+                    <TableColumn fx:id="docStatusCol" text="AI status" prefWidth="110"/>
+                    <TableColumn fx:id="docActionCol" text="Action" prefWidth="110"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- AI extraction -->
+        <VBox styleClass="card" spacing="8">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="AI extraction" styleClass="section-title"/>
+                <ComboBox fx:id="docCombo" prefWidth="360"/>
+            </HBox>
+            <Label fx:id="extractionSourceLabel" styleClass="row-sub" wrapText="true"/>
+            <TableView fx:id="extractionTable" prefHeight="215" styleClass="table-view">
+                <columns>
+                    <TableColumn fx:id="fieldCol" text="Field" prefWidth="150"/>
+                    <TableColumn fx:id="valueCol" text="Extracted value" prefWidth="210"/>
+                    <TableColumn fx:id="confCol" text="Confidence" prefWidth="190"/>
+                    <TableColumn fx:id="spanCol" text="Source span (explainability)" prefWidth="300"/>
+                    <TableColumn fx:id="pageCol" text="Page" prefWidth="60"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- AI summary -->
+        <VBox styleClass="card" spacing="8">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="AI summary &#40;3 paragraphs&#41;" styleClass="section-title"/>
+                <Label fx:id="summaryStatusChip" styleClass="chip"/>
+                <Label fx:id="summaryVersionLabel" styleClass="row-sub"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="saveDraftButton" text="Save draft" styleClass="btn-ghost"/>
+                <Button fx:id="approveButton" text="Approve &amp; notify client" styleClass="btn-gold"/>
+            </HBox>
+            <Label fx:id="summaryMetaLabel" styleClass="row-sub" wrapText="true"/>
+            <Label text="1. FACTS" styleClass="meta-key"/>
+            <TextArea fx:id="summaryP1" prefRowCount="3" wrapText="true" styleClass="summary-area"/>
+            <Label text="2. LEGAL ISSUES" styleClass="meta-key"/>
+            <TextArea fx:id="summaryP2" prefRowCount="3" wrapText="true" styleClass="summary-area"/>
+            <Label text="3. CURRENT STATUS" styleClass="meta-key"/>
+            <TextArea fx:id="summaryP3" prefRowCount="3" wrapText="true" styleClass="summary-area"/>
+        </VBox>
+
+        <!-- Deadlines / calendar -->
+        <VBox styleClass="card" spacing="8">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Deadlines &amp; Google Calendar" styleClass="section-title"/>
+                <Label text="Sync or unsync deadlines - the client is kept up to date" styleClass="row-sub"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="addDeadlineButton" text="+ Add deadline" styleClass="btn-ghost"/>
+                <Button fx:id="exportCaseIcsButton" text="Case .ics" styleClass="btn-gold"/>
+                <Button fx:id="unsyncAllButton" text="Unsync all" styleClass="btn-ghost"/>
+                <Button fx:id="syncAllButton" text="Sync all" styleClass="btn-primary"/>
+            </HBox>
+            <TableView fx:id="deadlineTable" prefHeight="190" styleClass="table-view">
+                <columns>
+                    <TableColumn fx:id="dlTitleCol" text="Deadline" prefWidth="250"/>
+                    <TableColumn fx:id="dlDateCol" text="Date" prefWidth="120"/>
+                    <TableColumn fx:id="dlDaysCol" text="Countdown" prefWidth="120"/>
+                    <TableColumn fx:id="dlReminderCol" text="Reminder (days)" prefWidth="130"/>
+                    <TableColumn fx:id="dlSyncCol" text="Calendar" prefWidth="110"/>
+                    <TableColumn fx:id="dlActionCol" text="Action" prefWidth="110"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <!-- Client communication -->
+        <VBox styleClass="card" spacing="8">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Message the client" styleClass="section-title"/>
+                <Label fx:id="msgUnreadLabel" styleClass="chip" visible="false" managed="false"/>
+            </HBox>
+            <VBox fx:id="messagesBox" spacing="6"/>
+            <Label text="Write to your client" styleClass="field-label"/>
+            <TextField fx:id="msgSubjectField" promptText="Subject (optional)"/>
+            <TextArea fx:id="msgBodyArea" promptText="Type your message..." prefRowCount="3" wrapText="true"/>
+            <Button fx:id="msgSendButton" text="Send to client" styleClass="btn-gold" maxWidth="Infinity"/>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

@@ -1,0 +1,72 @@
+@startuml
+!include a5-style.iuml
+top to bottom direction
+title Figure A5-4: Component Diagram - Final System Modules (updated)
+
+package "Client tier" {
+  [Browser client\nindex.html / app.js / sw.js] as WEB
+  [JavaFX desktop client\n(optional)] as FX
+}
+package "Application tier - one JVM (legal-backend.jar)" {
+  [REST API (Javalin)\n~95 routes] as API
+  [JWT and RBAC\nlockout 3 failures / 15 min] as SEC
+  [AES-256-GCM\ndocument encryption] as ENC
+  [SSE event bus] as BUS
+  package "AI component" {
+    [AI pipeline (worker pool)] as PIPE
+    [Text extractor (PDFBox, POI)] as TXT
+    [Extraction engine] as ENG
+    [Summariser] as SUM
+  }
+  package "Business services" {
+    [Help chat\n(rule-based, no external AI)] as CHAT
+    [Case file PDF\n(one page, PDFBox)] as CFILE
+    [Email reminders\nqueue + hourly job] as REM
+    [Case, Document, Deadline,\nSummary, Message services] as CORE
+    [Billing and trust\n(15% VAT, Section 86)] as BILL
+    [User onboarding] as USR
+    [Excel workbook export] as XLS
+    [Calendar sync] as CAL
+    [Audit (hash chain)] as AUD
+  }
+}
+package "Data tier" {
+  database "PostgreSQL 16 (Oracle VM)\nor H2 file (local)" as DB
+  folder "Encrypted document store" as STORE
+}
+cloud "Google Calendar API" as GCAL
+cloud "Mail server (SMTP)\noptional" as SMTP
+cloud "Oracle Cloud VM\nCaddy HTTPS" as EDGE
+
+WEB --> EDGE : HTTPS (production)
+WEB --> API : HTTP (local)
+FX --> API
+EDGE --> API
+API --> SEC
+API --> BUS
+API --> CORE
+API --> BILL
+API --> USR
+API --> XLS
+API --> CAL
+API --> CHAT
+API --> CFILE
+API --> REM
+WEB --> CHAT : chat panel (JSON)
+API --> AUD
+CORE --> PIPE
+PIPE --> TXT
+PIPE --> ENG
+PIPE --> SUM
+CORE --> ENC
+ENC --> STORE
+CORE --> DB
+BILL --> DB
+AUD --> DB
+CAL --> GCAL : OAuth2 + HTTPS
+CHAT --> CORE : reads cases, deadlines, billing
+CFILE --> BILL : fee note and trust figures
+REM --> CORE : due deadlines and recipients
+REM --> DB : reminders table
+REM --> SMTP : STARTTLS (only if LCE_SMTP_HOST set)
+@enduml

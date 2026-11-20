@@ -1,0 +1,50 @@
+@startuml
+!include a5-style.iuml
+title Figure A5-5: Deployment Diagram - Demonstrated and Production Environments (updated)
+
+node "Presenter workstation\nWindows 11 - JDK 21" as WS {
+  node "Web browser" as BR {
+    artifact "LegalCase ERP web client" as WC
+  }
+  node "Local backend (fallback)\njava -jar legal-backend.jar" as LOC {
+    artifact "REST + AI + calendar.ics" as LA
+    database "H2 file\ndata/erpdb" as LH
+  }
+}
+
+node "Oracle Cloud Always Free - VM 1 (app)\nUbuntu 24.04, ARM A1, public IP" as VM1 {
+  node "Docker: legalcase-web" as CADDY {
+    artifact "Caddy 2 - HTTPS 443 / HTTP 80" as CAD
+  }
+  node "Docker: legalcase-backend" as BE {
+    artifact "legal-backend.jar\nJavalin + AI pipeline" as APP
+    folder "legalcase-data volume\n(encrypted documents)" as VOL
+    artifact "Reminder timer (hourly)\nhelp chat, case file PDF" as JOB
+  }
+}
+
+node "Oracle Cloud Always Free - VM 2 (database)\nprivate subnet only" as VM2 {
+  node "Docker: legalcase-db" as DBC {
+    database "PostgreSQL 16" as PG
+  }
+}
+
+cloud "Google Calendar API" as GCAL
+cloud "SMTP mail server\n(optional)" as SMTPS
+
+WC --> CAD : HTTPS
+CAD --> APP : reverse proxy :8080
+APP --> VOL
+APP --> PG : JDBC :5432 private network
+APP --> GCAL : HTTPS (optional)
+JOB --> SMTPS : STARTTLS 587 (optional)
+LOC --> LH
+note bottom of VM2
+  Port 5432 accepts connections from VM 1 only
+  (subnet rule and host firewall). Not public.
+end note
+note bottom of VM1
+  Only ports 80 and 443 are public.
+  Single-VM variant: the database runs on this VM instead.
+end note
+@enduml

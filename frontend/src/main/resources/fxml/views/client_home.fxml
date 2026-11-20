@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" styleClass="scroll-pane"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="za.co.mongala.legal.ui.controller.ClientHomeController">
+
+    <VBox styleClass="page" spacing="14">
+
+        <!-- Welcome banner -->
+        <VBox styleClass="welcome-banner">
+            <Label fx:id="greetingLabel" styleClass="welcome-title"/>
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label fx:id="caseTitleLabel" styleClass="welcome-case"/>
+                <Label fx:id="statusBadge" styleClass="chip"/>
+            </HBox>
+            <Label fx:id="caseMetaLabel" styleClass="welcome-meta"/>
+        </VBox>
+
+        <HBox spacing="14">
+            <!-- Approved AI summary -->
+            <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="Your case update" styleClass="section-title"/>
+                <Label text="Prepared by the AI tutor and approved by your attorney" styleClass="row-sub"/>
+                <VBox fx:id="summaryBox" spacing="6"/>
+            </VBox>
+
+            <!-- Deadlines -->
+            <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                <Label text="Upcoming deadlines" styleClass="section-title"/>
+                <Label text="Automatically tracked and synced to your calendar" styleClass="row-sub"/>
+                <VBox fx:id="deadlineBox" spacing="6"/>
+            </VBox>
+        </HBox>
+
+        <!-- Messages preview -->
+        <VBox styleClass="card" spacing="10">
+            <VBox fx:id="messagePreviewBox" spacing="4"/>
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="viewDocumentsButton" text="View shared documents" styleClass="btn-ghost"/>
+                <Button fx:id="openMessagesButton" text="Open messages" styleClass="btn-primary"/>
+            </HBox>
+        </VBox>
+
+    </VBox>
+</ScrollPane>

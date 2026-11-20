@@ -1,0 +1,9 @@
+{
+  "name": "LegalCase ERP",
+  "short_name": "LegalCase",
+  "description": "Legal case management and AI document intelligence for small law firms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#16233C",
+  "theme_color": "#16233C"
+}

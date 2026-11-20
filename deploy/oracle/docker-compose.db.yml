@@ -1,0 +1,25 @@
+# ============================================================================
+# VM 2 (database machine) - PostgreSQL 16 only.
+# Bound to the PRIVATE address of this VM, and firewalled so that only VM 1 can
+# connect. Never expose port 5432 to the internet.
+#
+# Start:  bash setup-db-vm.sh <VM2-private-ip> <VM1-private-ip>
+# ============================================================================
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: legalcase-db
+    restart: unless-stopped
+    env_file: .db.env                   # written by setup-db-vm.sh (POSTGRES_PASSWORD etc.)
+    ports:
+      - "${DB_BIND_ADDRESS}:5432:5432"  # private IP only
+    volumes:
+      - legalcase-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legalcase -d legalcase"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  legalcase-pgdata:

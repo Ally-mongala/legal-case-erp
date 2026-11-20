@@ -1,0 +1,240 @@
+@startuml a2-class
+' ISJ107V Assignment 2 - Q4.3 Class diagram
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam linetype ortho
+skinparam class {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  ArrowColor #1F3864
+  HeaderBackgroundColor #E2EAF6
+}
+
+title Figure 3: Class Diagram - LegalCase ERP Domain Model
+
+abstract class User {
+  - id : String
+  - name : String
+  - email : String
+  - passwordHash : String
+  - active : boolean
+  - createdAt : LocalDateTime
+  + authenticate(password : String) : boolean
+  + hasScope(scope : String) : boolean
+  {abstract} + role() : Role
+}
+
+class Lawyer {
+  - practiceNumber : String
+  + uploadDocument(c : Case, f : File) : LegalDocument
+  + approveSummary(s : Summary) : void
+  + sendMessage(c : Case, body : String) : ClientMessage
+}
+
+class Client {
+  - contactNumber : String
+  + viewPortal() : List<Case>
+  + rateLawyer(c : Case, score : int) : Rating
+  + downloadDocument(d : LegalDocument) : byte[]
+}
+
+class Administrator {
+  + revokeAccess(u : User) : void
+  + approveTraining(t : TrainingRun) : void
+  + exportAuditReport() : File
+}
+
+enum Role {
+  LAWYER
+  CLIENT
+  ADMIN
+}
+
+class Case {
+  - id : String
+  - reference : String
+  - title : String
+  - matterType : String
+  - court : String
+  - openedDate : LocalDate
+  - amountInvolved : BigDecimal
+  - status : CaseStatus
+  + addDocument(d : LegalDocument) : void
+  + upcomingDeadlines() : List<Deadline>
+  + changeStatus(s : CaseStatus) : void
+}
+
+enum CaseStatus {
+  OPEN
+  IN_PROGRESS
+  ON_HOLD
+  CLOSED
+  ARCHIVED
+}
+
+class LegalDocument {
+  - id : String
+  - filename : String
+  - storagePath : String
+  - docType : DocType
+  - sizeKb : long
+  - uploadedAt : LocalDateTime
+  - consentGranted : boolean
+  - status : ProcessingStatus
+  - rejectionReason : String
+  + isBlocked() : boolean
+  + markProcessed() : void
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  PROCESSED
+  REJECTED
+  FAILED
+}
+
+class Extraction {
+  - id : long
+  - fieldName : String
+  - fieldValue : String
+  - confidence : double
+  - spanText : String
+  - pageNumber : int
+  + isLowConfidence() : boolean
+}
+
+class Summary {
+  - id : String
+  - paragraph1 : String
+  - paragraph2 : String
+  - paragraph3 : String
+  - version : int
+  - status : SummaryStatus
+  - createdAt : LocalDateTime
+  + approve(by : Lawyer) : void
+  + revise(text : String) : Summary
+}
+
+class Deadline {
+  - id : String
+  - title : String
+  - deadlineDate : LocalDate
+  - reminderDays : int
+  - synced : boolean
+  + daysRemaining() : long
+  + toIcsEvent() : String
+}
+
+class CalendarEvent {
+  - id : String
+  - externalEventId : String
+  - calendarId : String
+  - createdAt : LocalDateTime
+}
+
+class ClientMessage {
+  - id : String
+  - subject : String
+  - body : String
+  - sentAt : LocalDateTime
+  - fromLawyer : boolean
+  - readByClient : boolean
+  + markRead() : void
+}
+
+class Rating {
+  - id : String
+  - score : int
+  - comment : String
+  - createdAt : LocalDateTime
+}
+
+class AuditLog {
+  - id : long
+  - timestamp : LocalDateTime
+  - action : String
+  - details : String
+  - prevHash : String
+  - hash : String
+  + verifyChain() : boolean
+}
+
+class TrainingRun {
+  - id : String
+  - modelName : String
+  - status : String
+  - accuracy : double
+  - requestedAt : LocalDateTime
+  + approve() : void
+}
+
+class Dataset {
+  - id : String
+  - name : String
+  - records : long
+  - sizeKb : long
+}
+
+interface AiExtractionService <<emerging technology>> {
+  + extract(text : String) : List<Extraction>
+  + validateAgainstCase(d : LegalDocument, c : Case) : ValidationResult
+  + summarise(text : String) : Summary
+}
+
+class ExtractionEngine {
+  + extract(text : String) : List<Extraction>
+  + validateAgainstCase(d : LegalDocument, c : Case) : ValidationResult
+  + summarise(text : String) : Summary
+}
+
+class AiPipeline {
+  - workers : ExecutorService
+  + enqueue(d : LegalDocument, c : Case) : void
+  + retry(d : LegalDocument, c : Case) : void
+}
+
+interface CalendarGateway {
+  + sync(d : Deadline) : CalendarEvent
+  + unsync(d : Deadline) : void
+  + exportIcs(items : List<Deadline>) : String
+}
+
+class GoogleCalendarGateway
+class LocalCalendarGateway
+
+' ---- Inheritance ----
+User <|-- Lawyer
+User <|-- Client
+User <|-- Administrator
+User .. Role
+AiExtractionService <|.. ExtractionEngine
+CalendarGateway <|.. GoogleCalendarGateway
+CalendarGateway <|.. LocalCalendarGateway
+
+' ---- Associations with multiplicities ----
+Lawyer "1" -- "0..*" Case : manages >
+Client "1" -- "0..*" Case : is party to >
+Case "1" *-- "0..*" LegalDocument : contains >
+Case "1" *-- "0..*" Deadline : schedules >
+Case "1" o-- "0..*" ClientMessage : thread >
+Case "1" -- "0..1" Rating : rated by >
+Case ..> CaseStatus
+LegalDocument "1" *-- "0..*" Extraction : yields >
+LegalDocument "1" -- "0..*" Summary : summarised by >
+LegalDocument ..> ProcessingStatus
+Deadline "1" -- "0..1" CalendarEvent : synced as >
+Client "1" -- "0..*" Rating : submits >
+Administrator "1" -- "0..*" TrainingRun : approves >
+TrainingRun "0..*" -- "1" Dataset : trained on >
+User "1" -- "0..*" AuditLog : generates >
+
+AiPipeline "1" o-- "1" AiExtractionService : uses >
+AiPipeline ..> LegalDocument : processes >
+AiPipeline ..> Summary : creates >
+AiPipeline ..> Deadline : derives >
+Deadline ..> CalendarGateway : synchronised via >
+
+@enduml

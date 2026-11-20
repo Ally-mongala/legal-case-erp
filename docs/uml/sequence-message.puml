@@ -1,0 +1,27 @@
+@startuml sequence-message
+skinparam shadowing false
+title Sequence Diagram - Client message with instant (SSE) notification
+
+actor "Client" as C
+actor "Lawyer" as L
+participant "Browser A (client)" as UIA
+participant "MessageService" as MS
+participant "EventBus" as EB
+participant "SSE endpoint" as SSE
+participant "Browser B (lawyer)" as UIB
+
+C -> UIA : types message, clicks Send
+UIA -> MS : POST /api/cases/{id}/messages
+MS -> DB : INSERT message (from_lawyer=false, read_by_lawyer=false)
+MS -> EB : publish("new-message", caseId)
+activate EB
+EB -> SSE : broadcast to all SSE clients
+SSE --> UIB : event: new-message
+UIB -> UIB : refreshBell() - show red alert instantly (~7ms)
+deactivate EB
+UIB -> L : lawyer clicks bell
+L -> UIB : click alert
+UIB -> API : GET /api/cases (find case with unread client message)
+UIB -> API : POST /api/cases/{id}/messages/read-by-lawyer
+UIB -> UIB : opens case detail + scrolls to chat
+@enduml

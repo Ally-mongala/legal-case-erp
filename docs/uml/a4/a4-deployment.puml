@@ -1,0 +1,70 @@
+@startuml
+skinparam dpi 300
+' ISJ107V Assignment 4 - Question 3.5 (part 2)
+' Deployment diagram: execution environment of the demonstrated prototype
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam node {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  FontColor #17233D
+}
+skinparam artifact {
+  BackgroundColor #FFFFFF
+  BorderColor #1F3864
+}
+skinparam database {
+  BackgroundColor #EAF1FA
+  BorderColor #1F3864
+}
+skinparam ArrowColor #1F3864
+skinparam note {
+  BackgroundColor #FFF9E3
+  BorderColor #C9A227
+}
+
+title Figure A4-7: Deployment Diagram - Demonstrated Prototype Execution Environment
+
+node "Presenter workstation\nWindows 11 · JDK 21 · Maven 3.9" as WS {
+
+  node "Web browser" as BROWSER {
+    artifact "LegalCase ERP\nweb client :8080" as WEBCLIENT
+  }
+
+  node "JVM 21 process\njava -jar legal-backend.jar" as JVM {
+    artifact "legal-backend.jar\nJavalin + Jetty" as APP
+    artifact "web resources\nindex.html / app.js" as STATIC
+    artifact "AI worker pool\n(4 threads)" as WORKERS
+    database "H2 file\ndata/erpdb" as H2
+    folder "Encrypted docs\ndata/documents" as DOCS
+  }
+
+  node "Optional Docker Compose profile" as DC {
+    artifact "nginx proxy\n(SSE unbuffered)" as NGINX
+    artifact "backend container\n(Temurin 21 + jar)" as BC
+    database "PostgreSQL 16\n+ volume" as PG
+  }
+}
+
+cloud "Google Calendar API" as GCAL
+
+BROWSER --> APP : HTTP :8080\n(JSON + SSE)
+APP --> STATIC
+APP --> WORKERS
+APP --> H2 : JDBC (HikariCP)
+WORKERS --> DOCS : AES-256-GCM
+APP --> GCAL : HTTPS (optional)
+
+NGINX --> BC : proxy_pass :8080
+BC --> PG : JDBC :5432
+WEBCLIENT ..> NGINX : when containers\nare used
+
+note bottom of WS
+  Design differences: (1) one host with two processes instead of a three-container
+  stack; (2) H2 + local folder instead of managed PostgreSQL + object storage;
+  (3) AI in-process instead of a separately deployed service. The Compose profile
+  in the repository shows the intended production shape.
+end note
+@enduml

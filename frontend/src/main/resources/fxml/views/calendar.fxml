@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="page" spacing="14"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="za.co.mongala.legal.ui.controller.CalendarController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label text="Calendar sync" styleClass="page-title"/>
+            <Label text="Sync or unsync deadlines - Google Calendar integration"
+                   styleClass="page-subtitle"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="exportIcsButton" text="Export .ics" styleClass="btn-gold"/>
+        <Button fx:id="unsyncAllButton" text="Unsync all" styleClass="btn-ghost"/>
+        <Button fx:id="syncAllButton" text="Sync all pending" styleClass="btn-primary"/>
+    </HBox>
+
+    <VBox styleClass="card" spacing="10" VBox.vgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Firm deadline book" styleClass="section-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="syncSummaryLabel" styleClass="row-sub"/>
+        </HBox>
+        <TableView fx:id="deadlineTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="caseCol" text="Case" prefWidth="100"/>
+                <TableColumn fx:id="titleCol" text="Deadline" prefWidth="270"/>
+                <TableColumn fx:id="dateCol" text="Date" prefWidth="115"/>
+                <TableColumn fx:id="daysCol" text="Countdown" prefWidth="110"/>
+                <TableColumn fx:id="reminderCol" text="Reminder (days)" prefWidth="125"/>
+                <TableColumn fx:id="syncCol" text="Google Calendar" prefWidth="125"/>
+                <TableColumn fx:id="actionCol" text="Action" prefWidth="110"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

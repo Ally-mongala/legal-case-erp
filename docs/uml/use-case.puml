@@ -1,0 +1,64 @@
+@startuml use-case
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam maxMessageSize 160
+
+title Legal Case Management ERP - Use Case Diagram (FR1 - FR11)
+
+actor "Lawyer" as LAW
+actor "Client" as CLI
+actor "Admin" as ADM
+
+rectangle "Legal Case ERP" {
+  usecase "Upload legal document (PDF/Word)" as UC1
+  usecase "View AI extraction (fields, confidence, source)" as UC2
+  usecase "Review & approve 3-paragraph AI summary" as UC3
+  usecase "Manage deadlines (add / sync / unsync / export .ics)" as UC4
+  usecase "Change case status / edit / delete case" as UC5
+  usecase "Message client" as UC6
+  usecase "View client ratings" as UC7
+  usecase "View dashboard & charts" as UC8
+  usecase "View/download activity & audit history" as UC9
+
+  usecase "View approved case summary" as UC10
+  usecase "Download / share / delete documents" as UC11
+  usecase "Message lawyer" as UC12
+  usecase "Rate lawyer" as UC13
+
+  usecase "Manage users & revoke access" as UC14
+  usecase "View audits & download reports (incl. rejection reasons)" as UC15
+  usecase "Manage system metrics / approve retraining / datasets" as UC16
+}
+
+LAW --> UC1
+LAW --> UC2
+LAW --> UC3
+LAW --> UC4
+LAW --> UC5
+LAW --> UC6
+LAW --> UC7
+LAW --> UC8
+LAW --> UC9
+
+CLI --> UC10
+CLI --> UC11
+CLI --> UC12
+CLI --> UC13
+
+ADM --> UC14
+ADM --> UC15
+ADM --> UC16
+
+note right of UC1
+  FR1: PDF, DOCX, DOC accepted.
+  AI validates relevance - wrong or
+  irrelevant documents are BLOCKED.
+end note
+
+note right of UC4
+  FR4: Google Calendar API or local
+  .ics export per case.
+end note
+@enduml

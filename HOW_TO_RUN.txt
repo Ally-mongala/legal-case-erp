@@ -1,0 +1,80 @@
+LEGALCASE ERP v1.0.0 - HOW TO RUN
+Ally Mongala (219361629) | ISJ107V Integrated Software Project 2026
+=====================================================================
+
+PREREQUISITES
+  JDK 21   (JavaFX desktop client will NOT work on JDK 26)
+  Maven 3.9+
+  Verify:  java -version     -> should print 21.x
+           mvn -version
+
+-----------------------------------------------------------------
+OPTION 1 - BROWSER (recommended, no JavaFX needed)
+-----------------------------------------------------------------
+  mvn clean install
+  java -jar backend/target/legal-backend.jar
+
+  Then open:  http://localhost:8080
+
+  Or use the scripts:
+     Windows :  run-backend.bat
+     Mac/Linux: ./run-backend.sh
+
+-----------------------------------------------------------------
+OPTION 2 - JAVAFX DESKTOP CLIENT (needs JDK 21)
+-----------------------------------------------------------------
+     Windows :  run-connected.bat
+     Mac/Linux: ./run-connected.sh
+
+-----------------------------------------------------------------
+OPTION 3 - DOCKER (3 containers: nginx + backend + PostgreSQL)
+-----------------------------------------------------------------
+  docker compose up --build
+  Then open:  http://localhost:8080
+
+-----------------------------------------------------------------
+DEMO ACCOUNTS
+-----------------------------------------------------------------
+  Lawyer :  ally@mongalalaw.co.za   / lawyer123
+  Client :  thabo@example.com       / client123
+  Admin  :  admin@mongalalaw.co.za  / admin123
+
+-----------------------------------------------------------------
+RUN THE TESTS  (33 tests, all passing)
+-----------------------------------------------------------------
+  mvn test
+  mvn verify          # adds JaCoCo coverage report
+  Coverage report:  backend/target/site/jacoco/index.html
+  Metrics harness:  mvn test -Dtest=PerformanceMetricsTest -Dsurefire.failIfNoSpecifiedTests=false
+
+-----------------------------------------------------------------
+TRY THE AI DOCUMENT PIPELINE
+-----------------------------------------------------------------
+  Sample documents are in docs/test-cases/ :
+     1-match_*          -> should be PROCESSED
+     2-wrong_matter_*   -> should be REJECTED (belongs to another case)
+     3-no_case_info_*   -> should be REJECTED (not a legal document)
+     5-scanned_no_text  -> should FAIL (image-only, needs OCR)
+
+  Log in as the lawyer, open a case, upload one, and watch the
+  AI status change automatically.
+
+-----------------------------------------------------------------
+GIT REPOSITORY
+-----------------------------------------------------------------
+  This archive includes the full .git history (16 commits).
+  To publish it (required by Assignment 4 Q1.3 and Assignment 5):
+
+     git remote add origin https://github.com/<you>/legal-case-erp.git
+     git branch -M main
+     git push -u origin main
+
+  If the .git folder is ever missing, run:  ./restore-git.sh
+
+-----------------------------------------------------------------
+TROUBLESHOOTING
+-----------------------------------------------------------------
+  Port 8080 in use        -> set PORT=8081 before starting
+  "release version 21"    -> you are on the wrong JDK; install JDK 21
+  JavaFX errors           -> use Option 1 (browser) instead
+  Fresh start             -> delete the data/ folder and restart

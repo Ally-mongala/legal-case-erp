@@ -1,0 +1,110 @@
+@startuml
+' ISJ107V Assignment 2 - Q4.2 Activity diagram
+' End-to-end workflow: Upload legal document -> AI extraction -> validation -> summary -> calendar sync -> client notified
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 13
+skinparam activity {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  DiamondBackgroundColor #FFF6DF
+  DiamondBorderColor #B8860B
+  DiamondFontSize 13
+  ArrowColor #1F3864
+  FontSize 13
+}
+
+title Figure 2: Activity Diagram - Document Upload to Client Notification (End-to-End Workflow)
+
+|#F7F9FC|Lawyer (UI)|
+start
+:Open case, select PDF or DOCX
+and confirm client consent (POPIA);
+
+if (Valid file type and consent given?) then (yes)
+  :Submit upload
+  POST /api/cases/{id}/documents;
+else (no)
+  :Show validation error;
+  stop
+endif
+
+|#EFF6EF|Application Layer (REST API)|
+:Authenticate JWT, verify scope write:case,
+encrypt file (AES-256-GCM) and store record
+with status = PROCESSING;
+:Enqueue job on worker pool
+and return 202 Accepted;
+
+|#FFF9EC|AI Extraction Service (Emerging Technology)|
+:Extract text page-by-page
+(PDFBox / Apache POI);
+
+if (Machine-readable text found?) then (yes)
+  :Run NLP field extraction: dates, plaintiff,
+  defendant, attorneys, judge, case number, court;
+  :Attach confidence score, source text span
+  and page number to each field (explainability);
+  :Cross-validate extracted entities
+  against the target case record;
+
+  if (Document matches the case?) then (yes)
+    :Generate three-paragraph summary
+    (Facts / Legal Issues / Current Status);
+    :Persist extractions, summary and derived
+    deadlines; status = PROCESSED; write audit entry;
+  else (no - wrong matter or no case content)
+    :Set status = REJECTED with reason, highlight
+    conflicting spans, add to admin rejection
+    report and write audit entry;
+    |#F7F9FC|Lawyer (UI)|
+    :Show blocked-document banner
+    with highlighted evidence;
+    stop
+  endif
+
+else (no - scanned image only)
+  :Set status = FAILED
+  "No extractable text - scan requires OCR";
+  |#F7F9FC|Lawyer (UI)|
+  :Offer "Retry AI" action;
+  stop
+endif
+
+|#F7F9FC|Lawyer (UI)|
+:Review extracted fields and draft summary;
+
+while (Summary accurate?) is (no)
+  :Edit summary and correct fields;
+  |#EFF6EF|Application Layer (REST API)|
+  :Store correction as training example
+  (human-in-the-loop);
+  |#F7F9FC|Lawyer (UI)|
+endwhile (yes)
+
+:Approve summary for client release;
+
+|#EFF6EF|Application Layer (REST API)|
+:Create deadline records from extracted dates;
+
+if (Google account linked?) then (yes)
+  |#EAF1FA|Google Calendar API|
+  :Create calendar events
+  with configured reminders;
+else (no)
+  |#EFF6EF|Application Layer (REST API)|
+  :Generate .ics feed for
+  phone or desktop calendar;
+endif
+
+|#EFF6EF|Application Layer (REST API)|
+:Publish SSE events (new-message,
+deadline-updated) and write audit entry;
+
+|#FDF2F8|Client Portal|
+:View approved summary, shared documents
+and upcoming deadlines;
+stop
+
+@enduml

@@ -1,0 +1,139 @@
+@startuml
+skinparam dpi 300
+' ISJ107V Assignment 4 - Question 3.3 (part 1 of 2)
+' Domain classes of the prototype with attributes, associations and multiplicities
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam nodesep 20
+skinparam ranksep 40
+skinparam class {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  FontColor #17233D
+  ArrowColor #1F3864
+  HeaderBackgroundColor #1F3864
+  HeaderFontColor #FFFFFF
+}
+skinparam note {
+  BackgroundColor #FFF9E3
+  BorderColor #C9A227
+  FontColor #17233D
+}
+hide empty members
+top to bottom direction
+
+title Figure A4-3: Class Diagram (1 of 2) - Domain Classes, Associations and Multiplicities
+
+class User {
+  - id : String
+  - email : String
+  - fullName : String
+  - role : Role
+  - passwordHash : String
+  - active : boolean
+  + hasScope(scope) : boolean
+}
+
+class Case {
+  - id : String
+  - reference : String
+  - title : String
+  - clientName : String
+  - opposingParty : String
+  - matterType : String
+  - court : String
+  - status : CaseStatus
+  - openedDate : LocalDate
+}
+
+class Document {
+  - id : String
+  - fileName : String
+  - storagePath : String
+  - docType : DocType
+  - sizeKb : int
+  - processingStatus : ProcessingStatus
+  - rejectionReason : String
+  - consentGranted : boolean
+  + isBlocked() : boolean
+}
+
+class Extraction {
+  - id : String
+  - field : String
+  - value : String
+  - confidence : double
+  - span : String
+  - page : int
+}
+
+class Summary {
+  - id : String
+  - facts : String
+  - legalIssues : String
+  - currentStatus : String
+  - status : SummaryStatus
+  - version : int
+  - approvedBy : String
+  + isClientVisible() : boolean
+}
+
+class Deadline {
+  - id : String
+  - title : String
+  - dueDate : LocalDate
+  - reminderMinutes : int
+  - calendarEventId : String
+}
+
+class Message {
+  - id : String
+  - body : String
+  - senderRole : Role
+  - readByClient : boolean
+  - readByLawyer : boolean
+  - sentAt : LocalDateTime
+}
+
+class Rating {
+  - id : String
+  - stars : int
+  - comment : String
+}
+
+class AuditEntry {
+  - id : String
+  - timestamp : LocalDateTime
+  - user : String
+  - action : String
+  - details : String
+  - prevHash : String
+  - hash : String
+}
+
+User "1" -- "0..*" Case : owns as client >
+User "1" -- "0..*" Case : manages as lawyer >
+Case "1" *-- "0..*" Document : contains >
+Document "1" -- "0..*" Extraction : yields >
+Document "1" -- "0..1" Summary : produces >
+Case "1" *-- "0..*" Deadline : schedules >
+Case "1" *-- "0..*" Message : threads >
+Case "1" -- "0..*" AuditEntry : records >
+User "1" -- "0..*" Rating : gives >
+
+note bottom of Document
+  processingStatus = PROCESSING | PROCESSED |
+  REJECTED | FAILED. A REJECTED document keeps its
+  extractions so the UI can highlight the conflicting
+  fields, and stores a human-readable rejectionReason.
+end note
+
+note bottom of AuditEntry
+  FR-09: hash = SHA-256(prevHash || timestamp || user ||
+  action || details), computed from the values actually
+  persisted, so editing a historical row breaks
+  verification of the chain.
+end note
+@enduml

@@ -1,0 +1,48 @@
+# ============================================================================
+# VM 1 (application machine) - LegalCase ERP backend + HTTPS front door.
+# The database is NOT on this machine: it runs on VM 2 (docker-compose.db.yml),
+# reached over the private network through LCE_DB_URL in .env.
+#
+# Start:  bash setup-app-vm.sh
+# ============================================================================
+services:
+  backend:
+    build:
+      context: ../..                    # repository root (contains backend/ and shared/)
+      dockerfile: backend/Dockerfile
+    image: legalcase-erp-backend:latest
+    container_name: legalcase-backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      LCE_PORT: "8080"
+      LCE_DATA_DIR: /app/data
+      LCE_DEMO_AUTH: "false"
+      LCE_DATA_RESIDENCY: ZA
+    volumes:
+      - legalcase-data:/app/data        # uploaded documents (encrypted) survive restarts
+    expose:
+      - "8080"                          # internal only - Caddy is the only public door
+    # health is checked from the host by setup-app-vm.sh (the JRE image has no wget/curl)
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: legalcase-web
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}   # ":80" = plain HTTP by IP; a domain = automatic HTTPS
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"                   # HTTP/3
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data                # Let's Encrypt certificates
+      - caddy-config:/config
+
+volumes:
+  legalcase-data:
+  caddy-data:
+  caddy-config:

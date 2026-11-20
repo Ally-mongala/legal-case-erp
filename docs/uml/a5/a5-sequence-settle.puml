@@ -1,0 +1,31 @@
+@startuml
+!include a5-style.iuml
+title Figure A5-3: Sequence Diagram - Settle Invoice from Trust (UC20)
+
+actor "Lawyer" as L
+participant "Browser client\napp.js" as UI
+participant "BillingController\nPOST settle-from-trust" as API
+participant "TrustAccountingService" as TRUST
+participant "BillingService" as BILL
+participant "AuditService" as AUD
+database "PostgreSQL / H2" as DB
+
+L -> UI : click "Settle from trust"
+UI -> API : POST /api/cases/{id}/billing/settle-from-trust\n(Bearer JWT, scope write:case)
+API -> BILL : statementForCase(caseId)
+BILL -> DB : SELECT billing_entries
+DB --> BILL : fees incl. 15% VAT
+API -> TRUST : statementForCase(caseId)
+TRUST -> DB : SELECT trust_ledger
+DB --> TRUST : available trust balance
+alt amount exceeds available trust
+  API --> UI : 400 "Insufficient trust funds"
+else funds available
+  API -> TRUST : recordTransaction(transfer to business)
+  TRUST -> DB : INSERT trust_ledger (synchronized)
+  API -> DB : UPDATE cases.payment_status
+  API -> AUD : record SETTLE_FROM_TRUST
+  API --> UI : 200 settled amount, new outstanding balance
+  UI --> L : toast and refreshed Billing & Trust view
+end
+@enduml

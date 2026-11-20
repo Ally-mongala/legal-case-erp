@@ -1,0 +1,77 @@
+@startuml
+' ISJ107V Assignment 3 - Q3.1 High-level system architecture
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam rectangle {
+  BorderColor #1F3864
+  BackgroundColor #F4F7FB
+  FontColor #17233D
+}
+skinparam database {
+  BorderColor #1F3864
+  BackgroundColor #EAF1FA
+}
+skinparam ArrowColor #1F3864
+
+title Figure 1: High-Level System Architecture - LegalCase ERP
+
+actor "Lawyer" as L
+actor "Client" as C
+actor "Administrator" as A
+
+rectangle "PRESENTATION TIER" #F7F9FC {
+  rectangle "Browser Web Client\n----\nHTML5 / CSS3 / ES2022\nDashboard - Cases - Portal\nInline SVG charts" as WEB
+  rectangle "JavaFX Desktop Client\n----\nFXML + CSS\nSame REST contract" as FX
+}
+
+rectangle "APPLICATION TIER  (Javalin 6.3 on Java 21)" #EFF6EF {
+  rectangle "REST Controllers\n----\nAuth · Case · Document\nSummary · Calendar\nRating · Admin · Portal" as CTRL
+  rectangle "Security Layer\n----\nJWT scopes (JJWT)\nPBKDF2 hashing\nAES-256-GCM at rest" as SEC
+  rectangle "Business Services\n----\nCaseService · DocumentService\nDeadlineService · MessageService\nAuditService (hash chain)" as SVC
+  rectangle "AI Pipeline Worker Pool\n----\nAsynchronous ExecutorService\nextract → validate → summarise" as PIPE
+  rectangle "EventBus\n----\nServer-Sent Events\nnew-message · deadline-updated" as SSE
+}
+
+rectangle "EMERGING TECHNOLOGY" #FFF9EC {
+  rectangle "<<AI/NLP>>\nExtractionEngine\n----\nEntity + date extraction\nCase validation\nConfidence · span · page" as AI
+  rectangle "<<AI/NLP>>\nSummarizer\n----\n3-paragraph brief:\nFacts / Issues / Status" as SUM
+  rectangle "Text Extractors\n----\nPDFBox (PDF)\nApache POI (DOCX)" as TXT
+}
+
+rectangle "DATA TIER" #EAF1FA {
+  database "PostgreSQL 16 / H2\n----\nusers · cases · documents\nextractions · summaries\ndeadlines · messages\nratings · audit_log" as DB
+  rectangle "Encrypted Document Store\n----\nAES-256-GCM ciphertext\non disk / object storage" as FS
+}
+
+rectangle "EXTERNAL SERVICES" #FDF2F8 {
+  rectangle "Google Calendar API v3\n(OAuth2)" as GCAL
+  rectangle "iCalendar (.ics) Feed\nRFC 5545" as ICS
+}
+
+L --> WEB
+L --> FX
+C --> WEB
+A --> WEB
+
+WEB --> CTRL : HTTPS REST/JSON + Bearer JWT
+FX  --> CTRL : HTTPS REST/JSON + Bearer JWT
+SSE --> WEB  : text/event-stream (push)
+
+CTRL --> SEC : authenticate + authorise
+CTRL --> SVC
+SVC  --> PIPE : enqueue job (async)
+SVC  --> SSE  : publish event
+
+PIPE --> TXT : raw text per page
+PIPE --> AI  : extract / validateAgainstCase
+PIPE --> SUM : summarise
+
+SVC  --> DB  : JDBC via HikariCP
+PIPE --> DB
+SEC  --> FS  : encrypt / decrypt
+SVC  --> GCAL : sync deadlines (OAuth2)
+SVC  --> ICS  : export per-case feed
+
+@enduml

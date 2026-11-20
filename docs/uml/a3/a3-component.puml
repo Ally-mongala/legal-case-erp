@@ -1,0 +1,136 @@
+@startuml
+' ISJ107V Assignment 3 - Q3.6 Component diagram (software dependencies)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 11
+skinparam componentStyle rectangle
+skinparam component {
+  BorderColor #1F3864
+  BackgroundColor #F4F7FB
+}
+skinparam interface {
+  BorderColor #8A6D3B
+  BackgroundColor #FFF9EC
+}
+skinparam package {
+  BorderColor #365F91
+  BackgroundColor #FCFDFE
+}
+skinparam ArrowColor #1F3864
+
+title Figure 5: Component Diagram - Module Structure and Software Dependencies
+
+package "legal-case-erp-frontend" as FE {
+  component "MainApp\n(JavaFX)" as FXAPP
+  component "ApiClient" as APICLI
+  component "RemoteDataStore" as RDS
+}
+
+package "backend :: web resources" as WEBPKG {
+  component "Browser Client\nindex.html · app.js · app.css" as WEBC
+}
+
+package "legal-case-erp-backend" as BE {
+
+  package "api" {
+    component "AuthController" as C1
+    component "CaseController" as C2
+    component "DocumentController" as C3
+    component "SummaryController" as C4
+    component "CalendarController" as C5
+    component "AdminController" as C6
+    component "ClientPortalController" as C7
+  }
+
+  package "service" {
+    component "CaseService" as S1
+    component "DocumentService" as S2
+    component "AiPipeline" as S3
+    component "DeadlineService" as S4
+    component "MessageService" as S5
+    component "AuditService" as S6
+    component "EventBus" as S7
+  }
+
+  package "nlp  <<emerging technology>>" {
+    component "ExtractionEngine" as N1
+    component "Summarizer" as N2
+    component "DocumentTextExtractor" as N3
+  }
+
+  package "calendar" {
+    component "GoogleCalendarGateway" as G1
+    component "LocalCalendarGateway" as G2
+  }
+
+  package "auth / security" {
+    component "JwtUtil" as SEC1
+    component "PasswordHasher" as SEC2
+    component "EncryptionUtil" as SEC3
+  }
+
+  package "db" {
+    component "Database\n(HikariCP)" as DBC
+  }
+}
+
+package "legal-case-erp-shared" as SH {
+  component "Domain model\nCase · LegalDocument · Extraction\nSummary · Deadline · User" as MODEL
+}
+
+' ---- provided/required interfaces ----
+interface "REST / JSON\n+ Bearer JWT" as IREST
+interface "AiExtractionService" as IAI
+interface "CalendarGateway" as ICAL
+interface "JDBC / DataSource" as IJDBC
+
+WEBC  --( IREST
+APICLI --( IREST
+IREST -- C1
+IREST -- C2
+IREST -- C3
+
+FXAPP --> APICLI
+APICLI --> RDS
+
+C1 --> SEC1
+C1 --> SEC2
+C2 --> S1
+C3 --> S2
+C3 --> S3
+C4 --> S3
+C5 --> S4
+C6 --> S6
+C7 --> S1
+
+S3 --( IAI
+IAI -- N1
+IAI -- N2
+S3 --> N3
+S3 --> SEC3
+S4 --( ICAL
+ICAL -- G1
+ICAL -- G2
+
+S1 --( IJDBC
+S2 --( IJDBC
+S6 --( IJDBC
+IJDBC -- DBC
+
+S2 ..> S7 : publish
+S5 ..> S7 : publish
+S3 ..> S7 : publish
+
+BE ..> SH : depends on
+FE ..> SH : depends on
+
+note right of N1
+  The AI component is reached only through
+  the AiExtractionService interface, so the
+  rule-based engine can be replaced by a
+  fine-tuned transformer without changing
+  any caller (Strategy / Gateway pattern).
+end note
+
+@enduml

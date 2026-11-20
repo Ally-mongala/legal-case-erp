@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="page" spacing="14"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="za.co.mongala.legal.ui.controller.AdminAuditController">
+
+    <HBox styleClass="page-header">
+        <VBox spacing="2">
+            <Label text="Audits &amp; reports" styleClass="page-title"/>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="downloadAuditButton" text="Download audit report (CSV)" styleClass="btn-primary"/>
+        <Button fx:id="downloadCasesButton" text="Download case register (CSV)" styleClass="btn-ghost"/>
+        <Button fx:id="downloadRejectionsButton" text="Download rejections (CSV)" styleClass="btn-gold"/>
+    </HBox>
+
+    <VBox styleClass="card" spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="Audit trail - every sensitive action is logged and hash-chained" styleClass="section-title"/>
+        <TableView fx:id="auditTable" VBox.vgrow="ALWAYS" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="timeCol" text="Timestamp" prefWidth="165"/>
+                <TableColumn fx:id="userCol" text="User" prefWidth="120"/>
+                <TableColumn fx:id="actionCol" text="Action" prefWidth="175"/>
+                <TableColumn fx:id="detailsCol" text="Details" prefWidth="560"/>
+                <TableColumn fx:id="levelCol" text="Level" prefWidth="110"/>
+            </columns>
+        </TableView>
+    </VBox>
+
+    <VBox styleClass="card" spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="Rejected documents - AI validation report" styleClass="section-title"/>
+        <Label text="Documents the AI blocked because they were irrelevant to the case or contained incorrect information"
+               styleClass="row-sub"/>
+        <TableView fx:id="rejectionTable" prefHeight="220" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="rejFileCol" text="File" prefWidth="280"/>
+                <TableColumn fx:id="rejCaseCol" text="Case" prefWidth="110"/>
+                <TableColumn fx:id="rejByCol" text="Uploaded by" prefWidth="120"/>
+                <TableColumn fx:id="rejReasonCol" text="Rejection reason" prefWidth="500"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

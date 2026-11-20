@@ -1,0 +1,77 @@
+# ============================================================================
+# LegalCase ERP - full deployment with components on DIFFERENT machines/containers
+#
+#   - db       : PostgreSQL container (the central legal database)
+#   - backend  : Javalin REST API + AI pipeline container (serves the web client)
+#   - web      : Nginx container that serves the web client and proxies API/SSE
+#                to the backend (so the frontend and backend are separate hosts)
+#
+# The browser client talks only to the web container; the backend never exposes
+# its API directly to the internet. This satisfies the module requirement:
+# "The actual system working ... including having its components hosted on
+# different machines." (ISJ107V study guide, Assessment plan - Project, 50%)
+#
+# Usage:
+#   docker compose up --build
+#   then open http://localhost:8080
+# ============================================================================
+services:
+
+  db:
+    image: postgres:16-alpine
+    container_name: legalcase-db
+    environment:
+      POSTGRES_DB: legalcase
+      POSTGRES_USER: legalcase
+      POSTGRES_PASSWORD: legalcase-secret
+    volumes:
+      - legalcase-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legalcase -d legalcase"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: legalcase-backend
+    environment:
+      LCE_PORT: 8080
+      LCE_DATA_DIR: /app/data
+      LCE_DB_URL: jdbc:postgresql://db:5432/legalcase
+      LCE_DB_USER: legalcase
+      LCE_DB_PASSWORD: legalcase-secret
+      LCE_JWT_SECRET: change-me-in-production-219361629
+      LCE_DEMO_AUTH: "false"
+      # Uncomment to enable real Google Calendar API:
+      # LCE_GOOGLE_CAL_ID: primary
+      # LCE_GOOGLE_REFRESH_TOKEN: ...
+      # LCE_GOOGLE_CLIENT_ID: ...
+      # LCE_GOOGLE_CLIENT_SECRET: ...
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - legalcase-data:/app/data
+    restart: unless-stopped
+    # Internal only - the web container proxies to it
+    expose:
+      - "8080"
+
+  web:
+    image: nginx:1.27-alpine
+    container_name: legalcase-web
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  legalcase-pgdata:
+  legalcase-data:

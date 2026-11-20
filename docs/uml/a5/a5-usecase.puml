@@ -1,0 +1,108 @@
+@startuml
+!include a5-style.iuml
+left to right direction
+title Figure A5-1: Use-Case Diagram - Final System (Assignment 5, updated)
+
+actor "Lawyer\n(primary)" as Lawyer
+actor "Client\n(primary)" as Client
+actor "Administrator\n(primary)" as Admin
+actor "AI Extraction Engine\n(secondary)" as AI
+actor "Google Calendar API\n(secondary)" as Cal
+actor "Email (SMTP) server\n(secondary, optional)" as Mail
+actor "Local AI (Ollama)\n(secondary, optional, staff only)" as LocalAI
+actor "Web search\n(Wikipedia or Google, optional)" as Web
+
+rectangle "LegalCase ERP - final system boundary" {
+  usecase "UC01 Sign in (lockout after 3 failures)" as UC01
+  usecase "UC02 View caseload" as UC02
+  usecase "UC03 Upload document (POPIA consent)" as UC03
+  usecase "UC04 Extract case fields" as UC04
+  usecase "UC05 Validate against case" as UC05
+  usecase "UC06 Draft 3-paragraph summary" as UC06
+  usecase "UC07 Approve summary" as UC07
+  usecase "UC08 Manage deadlines" as UC08
+  usecase "UC09 Sync to calendar" as UC09
+  usecase "UC10 Export .ics" as UC10
+  usecase "UC11 Exchange messages" as UC11
+  usecase "UC12 Read approved summary" as UC12
+  usecase "UC13 Rate the attorney" as UC13
+  usecase "UC14 View audit trail" as UC14
+  usecase "UC15 Manage user access" as UC15
+  usecase "UC16 Export reports (CSV / xlsx)" as UC16
+  usecase "UC17 Monitor metrics" as UC17
+  usecase "UC18 Retry AI processing" as UC18
+  usecase "UC19 Firm billing and trust overview" as UC19
+  usecase "UC20 Settle invoice from trust" as UC20
+  usecase "UC21 Onboard user (link client to matter)" as UC21
+  usecase "UC22 Generate invoice PDF" as UC22
+  usecase "UC23 Ask the help chat" as UC23
+  usecase "UC24 Export one-page case file (PDF)" as UC24
+  usecase "UC25 Receive deadline reminder by email" as UC25
+  usecase "UC26 Drag-and-drop document upload" as UC26
+}
+
+Lawyer --> UC01
+Client --> UC01
+Admin --> UC01
+Lawyer --> UC02
+Lawyer --> UC03
+Lawyer --> UC07
+Lawyer --> UC08
+Lawyer --> UC09
+Lawyer --> UC18
+Lawyer --> UC19
+Lawyer --> UC20
+Lawyer --> UC22
+Lawyer --> UC24
+Lawyer --> UC25
+Lawyer --> UC26
+Client --> UC11
+Client --> UC12
+Client --> UC13
+Client --> UC24
+Client --> UC25
+Lawyer --> UC23
+Client --> UC23
+Admin --> UC23
+Admin --> UC14
+Admin --> UC15
+Admin --> UC16
+Admin --> UC17
+Admin --> UC21
+
+UC03 ..> UC04 : <<include>>
+UC03 ..> UC05 : <<include>>
+UC04 ..> UC06 : <<include>>
+UC07 ..> UC06 : <<extend>>
+UC20 ..> UC19 : <<extend>>
+UC22 ..> UC20 : <<include>>
+UC26 ..> UC03 : <<extend>>
+UC25 --> Mail
+UC23 --> LocalAI : general questions
+UC23 --> Web : general questions
+UC04 --> AI
+UC05 --> AI
+UC19 --> AI : AI claim quantum
+UC09 --> Cal
+UC10 --> Cal
+
+note bottom of UC19
+  Billed incl. 15% VAT, collected, debtors and
+  trust held. Claim quantum comes from the AI-extracted
+  "Claim Amount"; fee-to-claim ratio warns above 25%.
+end note
+note bottom of UC23
+  Answers FAQs, the next court date, the amount owed,
+  case status and searches cases and documents. Clients see
+  only their own cases. Staff general questions go to the
+  local AI or web search; case facts are never sent out.
+end note
+note bottom of UC25
+  Queued for each deadline inside its reminder window.
+  Sent by SMTP when configured; otherwise kept QUEUED.
+end note
+note bottom of UC20
+  Uses Section 86 trust funds only. Never allows an
+  overdraft; every settlement is audited.
+end note
+@enduml

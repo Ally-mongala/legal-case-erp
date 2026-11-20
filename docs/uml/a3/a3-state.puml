@@ -1,0 +1,65 @@
+@startuml
+' ISJ107V Assignment 3 - document lifecycle state machine
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam state {
+  BorderColor #1F3864
+  BackgroundColor #F4F7FB
+  FontColor #17233D
+}
+skinparam ArrowColor #1F3864
+
+title Figure 7: State Machine Diagram - LegalDocument Processing Lifecycle
+
+[*] --> PENDING : upload accepted\n(consent recorded, file encrypted)
+
+PENDING : Document row created
+PENDING : Ciphertext written to store
+PENDING : Awaiting a free worker
+
+PENDING --> PROCESSING : worker dequeues job
+
+PROCESSING : Text extracted per page\n(PDFBox / Apache POI)
+PROCESSING : NLP field extraction
+PROCESSING : Validation against target case
+
+PROCESSING --> FAILED : no machine-readable text\n[scanned image only]
+PROCESSING --> REJECTED : validation fails\n[wrong matter or no case content]
+PROCESSING --> PROCESSED : validation passes\nand summary generated
+
+FAILED : rejectionReason =\n"No extractable text"
+FAILED : Retry action offered to lawyer
+
+REJECTED : rejectionReason recorded
+REJECTED : Conflicting spans highlighted
+REJECTED : Listed in admin rejection report
+REJECTED : Extractions retained for review
+
+PROCESSED : Extractions persisted\n(confidence · span · page)
+PROCESSED : Draft summary created
+PROCESSED : Deadlines derived from dates
+
+FAILED --> PROCESSING : retry AI\n(POST /api/documents/{id}/retry)\n[stale results discarded]
+REJECTED --> PROCESSING : re-file against correct case\nand retry
+
+PROCESSED --> [*] : summary approved\nand released to client
+REJECTED --> [*] : document deleted by lawyer
+FAILED --> [*] : document deleted by lawyer
+
+note right of PROCESSED
+  Only a PROCESSED document whose summary
+  has been explicitly approved by a legal
+  practitioner becomes visible in the client
+  portal (FR-06).
+end note
+
+note left of REJECTED
+  REJECTED is a terminal-but-recoverable state:
+  the document is blocked from the client view
+  yet its extractions remain visible to the
+  lawyer so the mis-filing can be diagnosed.
+end note
+
+@enduml

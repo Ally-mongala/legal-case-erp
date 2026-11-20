@@ -1,0 +1,106 @@
+@startuml a2-sequence
+' ISJ107V Assignment 2 - Q4.4 Sequence diagram
+' Core use case UC03: Upload Legal Document (includes UC04 extraction, UC05 validation, UC06 summary)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam sequence {
+  ArrowColor #1F3864
+  LifeLineBorderColor #1F3864
+  LifeLineBackgroundColor #F4F7FB
+  ParticipantBorderColor #1F3864
+  ParticipantBackgroundColor #E2EAF6
+  ActorBorderColor #1F3864
+}
+
+title Figure 4: Sequence Diagram - UC03 Upload Legal Document with AI Extraction and Summary
+
+actor Lawyer as L
+boundary "Web / JavaFX UI\n(User Interface)" as UI
+control "DocumentController\n(Javalin REST API)" as API
+control "AiPipeline\n(Worker Pool)" as PIPE
+entity "ExtractionEngine\n<<emerging technology>>" as AI
+database "PostgreSQL / H2\n(Data Service)" as DB
+control "CalendarGateway" as CAL
+control "EventBus (SSE)" as SSE
+actor Client as C
+
+autonumber "<b>[00]"
+
+L -> UI : select case, choose file, confirm consent
+activate UI
+UI -> API : POST /api/cases/{id}/documents\n(multipart, Bearer JWT)
+activate API
+API -> API : validate JWT, scope write:case,\nMIME type and file size
+API -> API : encrypt payload (AES-256-GCM)
+API -> DB : INSERT document (status = PROCESSING)
+activate DB
+DB --> API : documentId
+deactivate DB
+API -> PIPE : enqueue(document, case)
+activate PIPE
+API --> UI : 202 Accepted { documentId, status: PROCESSING }
+deactivate API
+UI --> L : show "Processing..." indicator
+
+PIPE -> PIPE : extract raw text per page\n(PDFBox / Apache POI)
+
+alt no machine-readable text
+  PIPE -> DB : UPDATE status = FAILED
+  PIPE -> SSE : publish document-failed
+  SSE --> UI : event: document-failed
+  UI --> L : offer "Retry AI" action
+else text extracted
+  PIPE -> AI : extract(documentText)
+  activate AI
+  AI --> PIPE : List<Extraction>\n(field, value, confidence, span, page)
+  deactivate AI
+
+  PIPE -> DB : SELECT case parties, reference, court
+  activate DB
+  DB --> PIPE : case record
+  deactivate DB
+
+  PIPE -> AI : validateAgainstCase(document, case)
+  activate AI
+  AI --> PIPE : ValidationResult(match, reason, evidenceSpans)
+  deactivate AI
+
+  alt validation fails (wrong matter / no case content)
+    PIPE -> DB : UPDATE status = REJECTED,\nrejection_reason, keep extractions
+    PIPE -> DB : INSERT audit_log (hash-chained)
+    PIPE -> SSE : publish document-rejected
+    SSE --> UI : event: document-rejected
+    UI --> L : blocked-document banner\nwith highlighted evidence
+  else validation passes
+    PIPE -> AI : summarise(documentText)
+    activate AI
+    AI --> PIPE : Summary (Facts / Legal Issues / Current Status)
+    deactivate AI
+    PIPE -> DB : INSERT extractions, summary,\nderived deadlines; status = PROCESSED
+    PIPE -> DB : INSERT audit_log (hash-chained)
+    PIPE -> SSE : publish document-processed, deadline-updated
+    deactivate PIPE
+    SSE --> UI : event: document-processed
+    UI --> L : display fields, confidence scores and draft summary
+
+    L -> UI : edit if required, then Approve summary
+    UI -> API : POST /api/summaries/{id}/approve
+    activate API
+    API -> DB : UPDATE summary status = APPROVED
+    API -> CAL : sync(deadlines)
+    activate CAL
+    CAL --> API : CalendarEvent ids / .ics feed
+    deactivate CAL
+    API -> SSE : publish new-message, deadline-updated
+    API --> UI : 200 OK
+    deactivate API
+    SSE --> C : live portal notification
+    C -> UI : open client portal
+    UI --> C : approved summary, shared documents,\nupcoming deadlines
+  end
+end
+deactivate UI
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml activity
+skinparam shadowing false
+title Activity Diagram - Document lifecycle (upload -> AI validation -> outcome)
+
+start
+:Lawyer/Client selects document (PDF/Word) and grants consent;
+if (consent granted?) then (no)
+  :show error - consent required (POPIA);
+  stop
+else (yes)
+endif
+:Upload multipart to POST /api/cases/{id}/documents;
+:Document stored encrypted (AES-256-GCM), status = PROCESSING;
+:Worker pipeline: extract text page-by-page;
+if (text extractable?) then (no)
+  :status = FAILED - offer Retry AI (FR7);
+  stop
+else (yes)
+endif
+:ExtractionEngine -> fields with confidence + source span + page;
+:Save full text + extractions to database;
+if (AI validation - relevant to case?) then (no)
+  :status = REJECTED (BLOCKED);
+  :record rejection reason + audit entry;
+  :UI shows BLOCKED chip, reason, and kept extractions for review;
+  stop
+else (yes)
+endif
+:Summarizer -> 3 paragraphs (Facts / Legal Issues / Current Status);
+:Save summary (DRAFT) + status = PROCESSED;
+:Publish deadline-updated event (SSE) - dashboard chart updates live;
+:UI shows extraction panel + editable summary immediately;
+:Lawyer edits draft and approves -> published to client portal;
+stop
+@enduml

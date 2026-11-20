@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane styleClass="login-root" prefWidth="1180" prefHeight="740"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="za.co.mongala.legal.ui.controller.LoginController">
+
+    <!-- Left: branding panel -->
+    <left>
+        <VBox styleClass="login-brand" alignment="TOP_LEFT">
+            <VBox alignment="CENTER_LEFT" spacing="14">
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <Label text="&#9878;" styleClass="logo-mark"/>
+                    <VBox spacing="1">
+                        <Label text="LegalCase ERP" styleClass="brand-title"/>
+                        <Label text="AI Legal Practice Management" styleClass="brand-sub"/>
+                    </VBox>
+                </HBox>
+                <Label text="Secure legal practice management for firms, clients and administrators."
+                       styleClass="brand-tagline" wrapText="true"/>
+            </VBox>
+
+            <VBox spacing="10">
+                <HBox styleClass="brand-feature">
+                    <Label text="AI" styleClass="tip-badge"/>
+                    <VBox>
+                        <Label text="Automatic document understanding" styleClass="brand-feature-title"/>
+                        <Label text="Extracts dates, parties, attorneys, judge and key facts with confidence scores."
+                               styleClass="brand-feature-sub" wrapText="true"/>
+                    </VBox>
+                </HBox>
+                <HBox styleClass="brand-feature">
+                    <Label text="CAL" styleClass="tip-badge"/>
+                    <VBox>
+                        <Label text="Google Calendar synchronisation" styleClass="brand-feature-title"/>
+                        <Label text="Extracted and manually captured deadlines pushed to your calendar with configurable reminders."
+                               styleClass="brand-feature-sub" wrapText="true"/>
+                    </VBox>
+                </HBox>
+                <HBox styleClass="brand-feature">
+                    <Label text="ROL" styleClass="tip-badge"/>
+                    <VBox>
+                        <Label text="Role-based workspaces" styleClass="brand-feature-title"/>
+                        <Label text="Separate portals for lawyers, clients and administrators with full access control."
+                               styleClass="brand-feature-sub" wrapText="true"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <Label text="Legal Case Management ERP"
+                   styleClass="brand-footer"/>
+        </VBox>
+    </left>
+
+    <!-- Right: sign-in form (manual login - no demo buttons) -->
+    <center>
+        <VBox alignment="CENTER">
+            <VBox styleClass="login-card" spacing="0">
+                <Label text="Sign in" styleClass="login-heading"/>
+                <Label text="Enter your email and password" styleClass="login-subheading"/>
+                <Region prefHeight="18"/>
+
+                <VBox spacing="6">
+                    <Label text="Email address" styleClass="field-label"/>
+                    <TextField fx:id="emailField" promptText="you@firm.co.za" styleClass="field-input"/>
+                </VBox>
+                <Region prefHeight="10"/>
+
+                <VBox spacing="6">
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Password" styleClass="field-label"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="passwordToggle" text="Show" styleClass="link-label"/>
+                    </HBox>
+                    <!-- Show/Hide toggle: the visible TextField overlays the PasswordField
+                         in the same StackPane so the layout never jumps -->
+                    <StackPane fx:id="passwordStack">
+                        <PasswordField fx:id="passwordField" promptText="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"/>
+                        <TextField fx:id="passwordVisibleField" visible="false" managed="false"
+                                   promptText="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"/>
+                    </StackPane>
+                </VBox>
+                <Region prefHeight="10"/>
+
+                <Label fx:id="errorLabel" styleClass="login-error" wrapText="true" visible="false" managed="false"/>
+                <Region prefHeight="6"/>
+
+                <Button fx:id="signInButton" text="Sign in to workspace" onAction="#onSignIn"
+                        styleClass="btn-primary" maxWidth="Infinity" defaultButton="true"/>
+                <Region prefHeight="8"/>
+
+                <Separator/>
+                <Region prefHeight="8"/>
+
+                <Label text="Account access is role-based: lawyers, clients and administrators use the same sign-in."
+                       styleClass="demo-title" wrapText="true"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

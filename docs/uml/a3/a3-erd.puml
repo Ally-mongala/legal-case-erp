@@ -1,0 +1,185 @@
+@startuml
+' ISJ107V Assignment 3 - Q4.2 Entity-Relationship Diagram
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 11
+skinparam linetype ortho
+skinparam class {
+  BorderColor #1F3864
+  BackgroundColor #F4F7FB
+  HeaderBackgroundColor #E2EAF6
+  FontColor #17233D
+}
+skinparam ArrowColor #1F3864
+hide circle
+
+title Figure 8: Entity-Relationship Diagram - LegalCase ERP Database Schema
+
+entity "users" as users {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  name : VARCHAR(200) NOT NULL
+  email : VARCHAR(200) <<UQ>> NOT NULL
+  password_hash : VARCHAR(400) NOT NULL
+  role : VARCHAR(20) NOT NULL
+  active : BOOLEAN DEFAULT TRUE
+  created_at : TIMESTAMP
+}
+
+entity "cases" as cases {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  reference : VARCHAR(50) <<UQ>> NOT NULL
+  title : VARCHAR(300) NOT NULL
+  //client_id// : VARCHAR(32) <<FK>>
+  client_name : VARCHAR(200)
+  opposing_party : VARCHAR(200)
+  status : VARCHAR(40)
+  matter_type : VARCHAR(120)
+  court : VARCHAR(200)
+  opened_date : DATE
+  amount_involved : DECIMAL(18,2)
+}
+
+entity "documents" as documents {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  //case_id// : VARCHAR(32) <<FK>>
+  filename : VARCHAR(300)
+  storage_path : VARCHAR(600)
+  doc_type : VARCHAR(10)
+  uploaded_by : VARCHAR(200)
+  uploaded_at : TIMESTAMP
+  size_kb : BIGINT
+  status : VARCHAR(20)
+  rejection_reason : VARCHAR(400)
+  consent_granted : BOOLEAN
+  full_text : TEXT
+}
+
+entity "extractions" as extractions {
+  **id** : INT <<PK, identity>>
+  --
+  //document_id// : VARCHAR(32) <<FK>>
+  field_name : VARCHAR(80)
+  field_value : VARCHAR(400)
+  confidence : DOUBLE
+  span_text : VARCHAR(600)
+  page_number : INT
+}
+
+entity "summaries" as summaries {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  //document_id// : VARCHAR(32) <<FK>>
+  //case_id// : VARCHAR(32) <<FK>>
+  paragraph1 : TEXT
+  paragraph2 : TEXT
+  paragraph3 : TEXT
+  version : INT
+  status : VARCHAR(20)
+  created_by : VARCHAR(200)
+  created_at : TIMESTAMP
+  approved_at : TIMESTAMP
+}
+
+entity "deadlines" as deadlines {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  //case_id// : VARCHAR(32) <<FK>>
+  title : VARCHAR(300)
+  deadline_date : DATE
+  dl_type : VARCHAR(20)
+  reminder_days : INT
+  synced : BOOLEAN
+}
+
+entity "calendar_events" as calevents {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  //deadline_id// : VARCHAR(32) <<FK>>
+  event_id : VARCHAR(200)
+  calendar_id : VARCHAR(200)
+  created_at : TIMESTAMP
+}
+
+entity "messages" as messages {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  //case_id// : VARCHAR(32) <<FK>>
+  from_name : VARCHAR(200)
+  subject : VARCHAR(300)
+  body : VARCHAR(4000)
+  sent_at : TIMESTAMP
+  from_lawyer : BOOLEAN
+  read_by_client : BOOLEAN
+  read_by_lawyer : BOOLEAN
+}
+
+entity "ratings" as ratings {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  //case_id// : VARCHAR(32) <<FK>>
+  //client_id// : VARCHAR(32) <<FK>>
+  lawyer_name : VARCHAR(200)
+  score : INT
+  comment : VARCHAR(1000)
+  created_at : TIMESTAMP
+}
+
+entity "audit_log" as audit {
+  **id** : INT <<PK, identity>>
+  --
+  ts : TIMESTAMP
+  user_name : VARCHAR(200)
+  action : VARCHAR(60)
+  details : VARCHAR(1200)
+  level : VARCHAR(10)
+  prev_hash : VARCHAR(64)
+  hash : VARCHAR(64)
+}
+
+entity "training_runs" as runs {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  model_name : VARCHAR(200)
+  //dataset_id// : VARCHAR(32) <<FK>>
+  status : VARCHAR(20)
+  requested_by : VARCHAR(200)
+  requested_at : TIMESTAMP
+  approved_at : TIMESTAMP
+  accuracy : DOUBLE
+}
+
+entity "datasets" as datasets {
+  **id** : VARCHAR(32) <<PK>>
+  --
+  name : VARCHAR(300)
+  records : BIGINT
+  size_kb : BIGINT
+  storage_path : VARCHAR(600)
+  uploaded_at : TIMESTAMP
+}
+
+users     ||--o{ cases       : "is client of"
+cases     ||--o{ documents   : contains
+cases     ||--o{ deadlines   : schedules
+cases     ||--o{ messages    : "thread for"
+cases     ||--o{ summaries   : "summarised by"
+cases     ||--o| ratings     : "rated by"
+users     ||--o{ ratings     : submits
+documents ||--o{ extractions : yields
+documents ||--o{ summaries   : "summarised by"
+deadlines ||--o| calevents   : "synced as"
+datasets  ||--o{ runs        : "trained on"
+users     ||--o{ audit       : generates
+
+note bottom
+  Crow's-foot notation:  ||--o{  = one-to-many (zero or more)
+                         ||--o|  = one-to-zero-or-one
+  <<PK>> primary key · <<FK>> foreign key · <<UQ>> unique constraint
+  Indexes exist on every FK used in list queries plus audit_log(ts).
+end note
+
+@enduml

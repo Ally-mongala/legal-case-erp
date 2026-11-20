@@ -1,0 +1,55 @@
+' Shared style for the Assignment 5 diagrams (palette: navy #0F2E5C, blue #1D4ED8, white, green #15803D)
+skinparam dpi 300
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 12
+skinparam usecase {
+  BackgroundColor #EAF1FB
+  BorderColor #0F2E5C
+  FontColor #0E1217
+  ArrowColor #0F2E5C
+}
+skinparam actor {
+  BorderColor #0F2E5C
+  BackgroundColor #FFFFFF
+}
+skinparam class {
+  BackgroundColor #EAF1FB
+  BorderColor #0F2E5C
+  FontColor #0E1217
+  ArrowColor #0F2E5C
+  HeaderBackgroundColor #0F2E5C
+  HeaderFontColor #FFFFFF
+}
+skinparam component {
+  BackgroundColor #EAF1FB
+  BorderColor #0F2E5C
+  FontColor #0E1217
+  ArrowColor #0F2E5C
+}
+skinparam node {
+  BackgroundColor #F4F8FD
+  BorderColor #0F2E5C
+  FontColor #0E1217
+}
+skinparam package {
+  BackgroundColor #FAFBFD
+  BorderColor #0F2E5C
+  FontColor #0E1217
+}
+skinparam database {
+  BackgroundColor #E6F4EA
+  BorderColor #15803D
+}
+skinparam note {
+  BackgroundColor #FFF9E3
+  BorderColor #C9A227
+  FontColor #0E1217
+}
+skinparam sequence {
+  ArrowColor #0F2E5C
+  LifeLineBorderColor #0F2E5C
+  ParticipantBackgroundColor #EAF1FB
+  ParticipantBorderColor #0F2E5C
+}

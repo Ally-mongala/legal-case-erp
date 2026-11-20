@@ -1,0 +1,59 @@
+@startuml
+skinparam dpi 300
+' ISJ107V Assignment 4 - Question 3.4 (compact: six lifelines)
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 13
+skinparam sequence {
+  ArrowColor #1F3864
+  LifeLineBorderColor #1F3864
+  ParticipantBackgroundColor #F4F7FB
+  ParticipantBorderColor #1F3864
+  ParticipantFontColor #17233D
+  ActorBackgroundColor #FFFFFF
+  ActorBorderColor #1F3864
+  GroupBorderColor #C9A227
+  GroupBackgroundColor #FFF9E3
+}
+skinparam note {
+  BackgroundColor #FFF9E3
+  BorderColor #C9A227
+}
+title Figure A4-5: Sequence Diagram - Upload, AI Validation, Approval, Publication
+
+actor "Lawyer" as L
+participant "Web UI\n(app.js)" as UI
+participant "REST API and\nservices" as C
+database "Database" as DB
+participant "AI pipeline and\nExtractionEngine" as AI
+actor "Client" as CL
+
+L -> UI : choose file, tick consent
+UI -> C : POST /documents (JWT)
+C -> C : check scope, type, size, consent
+alt invalid token or input
+  C --> UI : 401 / 403 / 400 + message
+else valid
+  C -> DB : INSERT doc (PROCESSING), audit entry
+  C --> UI : 202 Accepted
+  C -> AI : enqueue(docId)
+  AI -> DB : text, status
+  AI -> AI : extract fields, validate vs case
+  alt document does not match the case
+    AI -> DB : status = REJECTED + reason
+    AI --> UI : SSE event
+    UI --> L : BLOCKED badge + reason
+  else document matches
+    AI -> AI : summarise (3 paragraphs)
+    AI -> DB : status = PROCESSED,\nsummary DRAFT, deadlines
+    AI --> UI : SSE event
+    UI --> L : extraction panel, draft, deadlines
+    L -> UI : review, correct, approve
+    UI -> C : POST /summaries/{id}/approve
+    C -> DB : APPROVED + approver, audit entry
+    CL -> DB : read own case
+    DB --> CL : approved summary only\n(DRAFT never returned)
+  end
+end
+@enduml

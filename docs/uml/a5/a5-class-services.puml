@@ -1,0 +1,114 @@
+@startuml
+!include a5-style.iuml
+hide empty members
+top to bottom direction
+title Figure A5-2: Class Diagram - Services, Billing, Calendar, Chat, Case File and Reminders (updated)
+
+class BillingService {
+  + statementForCase(caseId) : CaseStatement
+  + allEntries() : List<BillingEntry>
+  + generateInvoicePdf(case, st, settled) : byte[]
+  - extractAiClaimAmount(caseId) : double
+}
+class FirmBillingOverview {
+  + matters : List<FirmMatterBillingRow>
+  + firmBilledInclVat : double
+  + outstandingDebtors : double
+  + trustHeld : double
+}
+class TrustAccountingService {
+  + statementForCase(caseId) : TrustStatement
+  + transfersToBusinessForCase(caseId) : double
+  + recordTransaction(caseId, type, amount) : void
+}
+class ExcelWorkbookService {
+  + build(cases, docs, billing, trust) : byte[]
+}
+class UserService {
+  + create(id, name, email, password, role) : void
+  + verify(email, password) : User
+  + setActive(id, active) : void
+}
+class CaseService {
+  + assignClient(caseId, clientId) : void
+}
+class CalendarSyncService {
+  + syncOne(deadline) : String
+  + unsyncOne(deadline) : String
+  + testConnection() : String
+}
+interface CalendarGateway {
+  + createEvent(deadline, case) : Receipt
+  + deleteEvent(eventId, calendarId) : void
+  + probe() : String
+}
+class LocalCalendarGateway {
+  + writes calendar.ics
+}
+class GoogleCalendarGateway {
+  - cached access token
+  + retries 429 and 5xx
+}
+class AuditService {
+  + record(user, action, details)
+  + verifyChain() : boolean
+}
+
+BillingService ..> FirmBillingOverview : builds
+BillingService --> TrustAccountingService : settles from trust
+BillingService --> AuditService
+TrustAccountingService --> AuditService : overdraft check
+ExcelWorkbookService --> BillingService
+ExcelWorkbookService --> TrustAccountingService
+UserService --> AuditService
+CaseService --> UserService : links client
+CalendarSyncService --> CalendarGateway
+CalendarGateway <|.. LocalCalendarGateway
+CalendarGateway <|.. GoogleCalendarGateway
+CalendarSyncService --> AuditService
+class ChatController {
+  + ask(ctx) : POST /api/chat
+}
+class ChatbotService {
+  + {static} classify(text) : Intent
+  + answer(session, text) : Reply
+  - resolveCase(text, visible) : Case
+}
+class CaseFileService {
+  + render(case, summary, deadlines, st, trust, at) : byte[]
+}
+class ReminderService {
+  + runOnce() : RunResult
+  + recent(limit) : List<Reminder>
+  - recipientsFor(case) : List<String>
+}
+class Reminder {
+  id, deadlineId, recipient
+  subject, body, status
+  QUEUED | SENT | FAILED
+}
+class MailSender {
+  + isConfigured() : boolean
+  + send(to, subject, body) : void
+}
+
+ChatController --> ChatbotService
+ChatbotService --> CaseService : reads cases
+ChatbotService --> DeadlineService : next date
+ChatbotService --> BillingService : amount owed
+ChatbotService --> TrustAccountingService : trust credit
+ChatbotService --> MessageService : unread count
+CaseFileService ..> BillingService : fee note figures
+CaseFileService ..> TrustAccountingService : trust figures
+ReminderService --> DeadlineService : due deadlines
+ReminderService --> CaseService : recipients on case
+ReminderService --> UserService : client email
+ReminderService --> MailSender : sends when configured
+ReminderService --> AuditService
+ReminderService ..> Reminder : creates
+note right of TrustAccountingService
+  Section 86 trust rule: a settlement is
+  rejected when the amount exceeds the
+  available trust balance.
+end note
+@enduml

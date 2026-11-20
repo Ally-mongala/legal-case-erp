@@ -1,0 +1,36 @@
+@startuml component
+skinparam shadowing false
+skinparam componentStyle rectangle
+title Component & Deployment Diagram - components hosted on different machines (Docker)
+
+node "Machine A - Browser / Desktop" {
+  component "Web Client\n(index.html + app.js + app.css)" as WEB
+  component "JavaFX Desktop Client" as FX
+}
+
+node "Machine B - Backend container (Docker)" {
+  component "Javalin REST API\n(Auth, Cases, Documents,\nSummaries, Calendar, Ratings,\nAdmin, Client Portal)" as API
+  component "AI Pipeline Worker\n(extract -> validate -> summarise)" as AI
+  component "EventBus (SSE)" as SSE
+  component "Encryption Util\n(AES-256-GCM)" as ENC
+}
+
+node "Machine C - Database container (Docker)" {
+  database "PostgreSQL / H2\n(users, cases, documents,\nextractions, summaries,\ndeadlines, messages,\nratings, audit_log, datasets)" as DB
+}
+
+node "External services" {
+  component "Google Calendar API\n(OAuth2)" as GC
+  component "User's phone/computer calendar\n(.ics import)" as ICS
+}
+
+WEB --> API : REST + JWT (HTTPS/HTTP)
+FX --> API : REST + JWT
+WEB --> SSE : GET /api/events (SSE stream)
+API --> DB : JDBC (HikariCP)
+AI --> DB : JDBC
+API --> ENC : encrypt/decrypt at rest
+API --> GC : create events (OAuth2)
+API --> ICS : export calendar.ics per case
+AI ..> SSE : publish deadline-updated / new-message
+@enduml

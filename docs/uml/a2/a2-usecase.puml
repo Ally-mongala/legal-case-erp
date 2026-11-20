@@ -1,0 +1,126 @@
+@startuml
+' ISJ107V Assignment 2 - Q4.1 Use-case diagram
+' LegalCase ERP - Legal Case Management ERP with AI document intelligence
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Carlito
+skinparam defaultFontSize 13
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam nodesep 22
+skinparam ranksep 55
+skinparam usecase {
+  BackgroundColor #F4F7FB
+  BorderColor #1F3864
+  FontColor #17233D
+  ArrowColor #1F3864
+}
+skinparam actor {
+  BorderColor #1F3864
+  BackgroundColor #FFFFFF
+}
+left to right direction
+
+title Figure 1: Use-case Diagram - LegalCase ERP (System Boundary, Actors and Major Use Cases)
+
+actor "Firm User" as FirmUser
+actor "Lawyer\n(Primary)" as Lawyer
+actor "Client\n(Primary)" as Client
+actor "System\nAdministrator\n(Primary)" as Admin
+
+FirmUser <|-- Lawyer
+FirmUser <|-- Client
+FirmUser <|-- Admin
+
+rectangle "LegalCase ERP  (System Boundary)" #line:1F3864 {
+
+  package "Access Control" {
+    usecase "UC01\nAuthenticate User" as UC01
+  }
+
+  package "Case and Document Management" {
+    usecase "UC02\nManage Case Record" as UC02
+    usecase "UC03\nUpload Legal Document" as UC03
+    usecase "UC19\nRetry Failed Processing" as UC19
+  }
+
+  package "AI Document Intelligence" {
+    usecase "UC04\nExtract Case Data (AI/NLP)" as UC04
+    usecase "UC05\nValidate Document\nAgainst Case" as UC05
+    usecase "UC06\nGenerate Three-Paragraph\nAI Summary" as UC06
+    usecase "UC07\nReview and Approve\nSummary" as UC07
+    usecase "UC20\nBlock and Report\nRejected Document" as UC20
+  }
+
+  package "Scheduling" {
+    usecase "UC08\nManage Deadlines" as UC08
+    usecase "UC09\nSynchronise Calendar" as UC09
+    usecase "UC10\nExport Calendar (.ics)" as UC10
+  }
+
+  package "Client Engagement" {
+    usecase "UC11\nExchange Secure Messages" as UC11
+    usecase "UC12\nView Client Portal" as UC12
+    usecase "UC13\nDownload Shared Document" as UC13
+    usecase "UC14\nRate Lawyer Service" as UC14
+  }
+
+  package "Administration and Analytics" {
+    usecase "UC15\nManage Users and\nRevoke Access" as UC15
+    usecase "UC16\nView Audit Trail and\nDownload Reports" as UC16
+    usecase "UC17\nApprove Model Retraining" as UC17
+    usecase "UC18\nView Analytics Dashboard" as UC18
+  }
+}
+
+actor "AI Extraction Service\n(Emerging Technology)" as AI <<supporting>>
+actor "Google Calendar API" as GCal <<supporting>>
+actor "Notification Service\n(SSE)" as SSE <<supporting>>
+
+' ---- Primary actor associations ----
+FirmUser --> UC01
+
+Lawyer --> UC02
+Lawyer --> UC03
+Lawyer --> UC07
+Lawyer --> UC08
+Lawyer --> UC09
+Lawyer --> UC18
+Lawyer --> UC19
+
+Client --> UC12
+Client --> UC13
+Client --> UC14
+
+Lawyer --> UC11
+Client --> UC11
+
+Admin --> UC15
+Admin --> UC16
+Admin --> UC17
+Admin --> UC20
+
+' ---- include relationships ----
+UC02 ..> UC01 : <<include>>
+UC12 ..> UC01 : <<include>>
+UC03 ..> UC04 : <<include>>
+UC04 ..> UC05 : <<include>>
+UC03 ..> UC06 : <<include>>
+UC09 ..> UC08 : <<include>>
+UC15 ..> UC16 : <<include>>
+
+' ---- extend relationships ----
+UC20 ..> UC05 : <<extend>>\n[validation fails]
+UC19 ..> UC04 : <<extend>>\n[status = FAILED]
+UC10 ..> UC09 : <<extend>>\n[no Google account linked]
+UC11 ..> UC12 : <<extend>>\n[new message notification]
+
+' ---- supporting actor associations ----
+UC04 --> AI
+UC05 --> AI
+UC06 --> AI
+UC17 --> AI
+UC09 --> GCal
+UC11 --> SSE
+
+@enduml
